@@ -1,0 +1,691 @@
+<div class="live-monitor-page">
+
+  <!-- ===================================================== -->
+  <!-- PAGE HEADER -->
+  <!-- ===================================================== -->
+
+  <section class="page-header">
+
+    <div class="header-copy">
+
+      <div class="eyebrow">
+        <span class="live-pulse"></span>
+        LIVE INTELLIGENCE
+      </div>
+
+      <h1>Live Monitor</h1>
+
+      <p>
+        Real-time camera feeds and AI-powered traffic detection.
+      </p>
+
+    </div>
+
+    <div class="header-meta">
+
+      <div class="inference-status">
+        <span class="status-dot"></span>
+
+        <div>
+          <strong>AI inference active</strong>
+          <span>Detection engine running</span>
+        </div>
+      </div>
+
+      <div class="network-status">
+        <span></span>
+        Network operational
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- CAMERA SELECTOR -->
+  <!-- ===================================================== -->
+
+  <section class="camera-selector">
+
+    <div class="selector-heading">
+
+      <div>
+
+        <span class="section-eyebrow">
+          MONITORED CAMERAS
+        </span>
+
+        <h2>Camera network</h2>
+
+      </div>
+
+      <div class="camera-count">
+        <strong>{{ cameras.length }}</strong>
+        <span>active feeds</span>
+      </div>
+
+    </div>
+
+
+    <div class="camera-tabs">
+
+      <button
+        type="button"
+        class="camera-tab"
+        *ngFor="let camera of cameras; trackBy: trackByCamera"
+        [class.active]="selectedCameraId === camera.id"
+        (click)="selectCamera(camera.id)">
+
+        <div class="camera-tab-icon">
+
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="6" width="14" height="12" rx="2"></rect>
+            <path d="M17 10l4-2v8l-4-2z"></path>
+          </svg>
+
+        </div>
+
+        <div class="camera-tab-copy">
+
+          <strong>{{ camera.id }}</strong>
+
+          <span>{{ camera.name }}</span>
+
+        </div>
+
+        <span
+          class="camera-status"
+          [class.warning]="camera.status === 'warning'"
+          [class.offline]="camera.status === 'offline'">
+        </span>
+
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- MAIN MONITOR -->
+  <!-- ===================================================== -->
+
+  <section class="monitor-grid">
+
+
+    <!-- ================================================= -->
+    <!-- VIDEO FEED -->
+    <!-- ================================================= -->
+
+    <article class="panel feed-panel">
+
+      <div class="panel-header">
+
+        <div class="panel-title">
+
+          <div class="panel-icon cyan-icon">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="6" width="14" height="12" rx="2"></rect>
+              <path d="M17 10l4-2v8l-4-2z"></path>
+            </svg>
+
+          </div>
+
+          <div>
+            <h2>{{ selectedCamera.name }}</h2>
+            <span>
+              {{ selectedCamera.id }} · {{ selectedCamera.location }}
+            </span>
+          </div>
+
+        </div>
+
+        <div class="feed-status">
+
+          <span></span>
+          LIVE
+
+        </div>
+
+      </div>
+
+
+      <div class="camera-feed">
+
+        <!-- Simulated road scene -->
+
+        <div class="sky"></div>
+
+        <div class="city-silhouette">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <div class="road-surface"></div>
+
+        <div class="road-lane lane-one"></div>
+        <div class="road-lane lane-two"></div>
+        <div class="road-lane lane-three"></div>
+
+
+        <!-- AI detection box 1 -->
+
+        <div
+          class="detection-box box-one">
+
+          <span class="box-label">
+            CAR · 94%
+          </span>
+
+          <span class="box-id">
+            ID 094
+          </span>
+
+        </div>
+
+
+        <!-- AI detection box 2 -->
+
+        <div
+          class="detection-box box-two warning-box">
+
+          <span class="box-label">
+            CAR · 91%
+          </span>
+
+          <span class="box-id">
+            ID 091
+          </span>
+
+        </div>
+
+
+        <!-- AI detection box 3 -->
+
+        <div
+          class="detection-box box-three bus-box">
+
+          <span class="box-label">
+            BUS · 89%
+          </span>
+
+          <span class="box-id">
+            ID 089
+          </span>
+
+        </div>
+
+
+        <!-- Feed overlay -->
+
+        <div class="feed-overlay-top">
+
+          <span>
+            {{ selectedCamera.id }}
+          </span>
+
+          <span>
+            AI INFERENCE ACTIVE
+          </span>
+
+        </div>
+
+
+        <div class="feed-overlay-bottom">
+
+          <span>
+            {{ selectedCamera.vehicles }} objects detected
+          </span>
+
+          <span>
+            {{ selectedCamera.fps }} FPS
+          </span>
+
+          <span>
+            1920 × 1080
+          </span>
+
+        </div>
+
+
+        <div class="tracking-indicator">
+
+          <span class="tracking-ring"></span>
+
+          <div>
+            <strong>Object tracking</strong>
+            <span>Active</span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="feed-footer">
+
+        <div class="location-info">
+
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 21s7-6.1 7-11A7 7 0 0 0 5 10c0 4.9 7 11 7 11z"></path>
+            <circle cx="12" cy="10" r="2.3"></circle>
+          </svg>
+
+          <div>
+            <strong>{{ selectedCamera.name }}</strong>
+            <span>{{ selectedCamera.location }}</span>
+          </div>
+
+        </div>
+
+        <div class="feed-actions">
+
+          <button type="button">
+            <svg viewBox="0 0 20 20">
+              <path d="M5 5h10v10H5z"></path>
+              <path d="M8 3v4M12 3v4M8 13v4M12 13v4"></path>
+            </svg>
+            Fullscreen
+          </button>
+
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- ================================================= -->
+    <!-- LIVE INSIGHTS -->
+    <!-- ================================================= -->
+
+    <aside class="insights-column">
+
+
+      <article class="panel insight-panel">
+
+        <div class="panel-header">
+
+          <div class="panel-title">
+
+            <div class="panel-icon blue-icon">
+
+              <svg viewBox="0 0 24 24">
+                <path d="M4 18V6"></path>
+                <path d="M4 18h16"></path>
+                <path d="M7 14l4-4 3 2 5-6"></path>
+              </svg>
+
+            </div>
+
+            <div>
+              <h2>Live Insights</h2>
+              <span>Current camera intelligence</span>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="insight-stats">
+
+          <div class="insight-stat">
+
+            <span>Vehicles</span>
+            <strong>{{ selectedCamera.vehicles }}</strong>
+
+            <small>Detected now</small>
+
+          </div>
+
+
+          <div class="insight-stat">
+
+            <span>Avg. speed</span>
+            <strong>42</strong>
+            <small>km/h</small>
+
+          </div>
+
+
+          <div class="insight-stat">
+
+            <span>Objects</span>
+            <strong>18</strong>
+            <small>Tracked</small>
+
+          </div>
+
+
+          <div class="insight-stat">
+
+            <span>FPS</span>
+            <strong>{{ selectedCamera.fps }}</strong>
+            <small>Inference</small>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- TRAFFIC CONDITION -->
+
+      <article class="panel condition-panel">
+
+        <div class="condition-heading">
+
+          <div>
+
+            <span>TRAFFIC CONDITION</span>
+
+            <h3>
+              {{ getCongestionLabel(selectedCamera.congestion) }}
+            </h3>
+
+          </div>
+
+          <div
+            class="condition-indicator"
+            [class.warning]="selectedCamera.congestion === 'moderate'"
+            [class.critical]="selectedCamera.congestion === 'congested'">
+
+          </div>
+
+        </div>
+
+
+        <div class="condition-meter">
+
+          <span
+            class="meter-fill"
+            [class.moderate]="selectedCamera.congestion === 'moderate'"
+            [class.congested]="selectedCamera.congestion === 'congested'">
+          </span>
+
+        </div>
+
+
+        <div class="condition-meta">
+
+          <span>Current load</span>
+
+          <strong>
+            {{
+              selectedCamera.congestion === 'normal'
+                ? '32%'
+                : selectedCamera.congestion === 'moderate'
+                  ? '61%'
+                  : '84%'
+            }}
+          </strong>
+
+        </div>
+
+      </article>
+
+
+      <!-- SYSTEM HEALTH -->
+
+      <article class="panel health-panel">
+
+        <div class="health-heading">
+
+          <div>
+            <span>CAMERA HEALTH</span>
+            <h3>System status</h3>
+          </div>
+
+          <span class="healthy-badge">
+            Healthy
+          </span>
+
+        </div>
+
+
+        <div class="health-list">
+
+          <div>
+            <span>
+              <i></i>
+              Video stream
+            </span>
+            <strong>Stable</strong>
+          </div>
+
+          <div>
+            <span>
+              <i></i>
+              AI inference
+            </span>
+            <strong>Active</strong>
+          </div>
+
+          <div>
+            <span>
+              <i></i>
+              Network
+            </span>
+            <strong>32 ms</strong>
+          </div>
+
+        </div>
+
+      </article>
+
+    </aside>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- DETECTIONS + ACTIVITY -->
+  <!-- ===================================================== -->
+
+  <section class="lower-grid">
+
+
+    <!-- DETECTION TABLE -->
+
+    <article class="panel detections-panel">
+
+      <div class="panel-header">
+
+        <div class="panel-title">
+
+          <div class="panel-icon purple-icon">
+
+            <svg viewBox="0 0 24 24">
+              <path d="M5 16l1.4-6h11.2L19 16"></path>
+              <path d="M4 16h16v4H4z"></path>
+              <circle cx="7" cy="19" r="1.2"></circle>
+              <circle cx="17" cy="19" r="1.2"></circle>
+            </svg>
+
+          </div>
+
+          <div>
+            <h2>Active Detections</h2>
+            <span>Objects currently tracked by AI</span>
+          </div>
+
+        </div>
+
+        <span class="object-count">
+          {{ detections.length }} tracked
+        </span>
+
+      </div>
+
+
+      <div class="detection-table">
+
+        <div class="table-head">
+
+          <span>OBJECT</span>
+          <span>CONFIDENCE</span>
+          <span>SPEED</span>
+          <span>LANE</span>
+          <span>STATUS</span>
+
+        </div>
+
+
+        <div
+          class="table-row"
+          *ngFor="let detection of detections; trackBy: trackByDetection">
+
+          <div class="object-cell">
+
+            <div
+              class="object-icon"
+              [class.bus]="detection.type === 'bus'"
+              [class.bike]="detection.type === 'bike'"
+              [class.truck]="detection.type === 'truck'">
+
+              <svg viewBox="0 0 24 24">
+
+                <path
+                  *ngIf="detection.type === 'car'"
+                  d="M5 16l1.4-6h11.2L19 16M4 16h16v4H4z">
+                </path>
+
+                <rect
+                  *ngIf="detection.type === 'bus'"
+                  x="5"
+                  y="4"
+                  width="14"
+                  height="15"
+                  rx="2">
+                </rect>
+
+                <path
+                  *ngIf="detection.type === 'bike'"
+                  d="M6 17l4-7h4l4 7M10 10l-2-3h3">
+                </path>
+
+                <path
+                  *ngIf="detection.type === 'truck'"
+                  d="M3 6h12v11H3zM15 10h4l3 3v4h-7z">
+                </path>
+
+              </svg>
+
+            </div>
+
+            <div>
+              <strong>{{ getDetectionLabel(detection.type) }}</strong>
+              <span>ID {{ detection.id }}</span>
+            </div>
+
+          </div>
+
+
+          <span class="confidence">
+            {{ detection.confidence }}%
+          </span>
+
+
+          <span class="speed-value">
+            {{ detection.speed }} km/h
+          </span>
+
+
+          <span class="lane">
+            {{ detection.lane }}
+          </span>
+
+
+          <span
+            class="detection-status"
+            [class.warning]="detection.status === 'warning'"
+            [class.critical]="detection.status === 'critical'">
+
+            {{
+              detection.status === 'normal'
+                ? 'Normal'
+                : detection.status === 'warning'
+                  ? 'Review'
+                  : 'Attention'
+            }}
+
+          </span>
+
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- RECENT ACTIVITY -->
+
+    <article class="panel activity-panel">
+
+      <div class="panel-header">
+
+        <div class="panel-title">
+
+          <div class="panel-icon red-icon">
+
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="8"></circle>
+              <path d="M12 8v4l3 2"></path>
+            </svg>
+
+          </div>
+
+          <div>
+            <h2>Detection Activity</h2>
+            <span>Latest camera events</span>
+          </div>
+
+        </div>
+
+        <button class="view-all" type="button">
+          View all
+        </button>
+
+      </div>
+
+
+      <div class="activity-list">
+
+        <div
+          class="activity-item"
+          *ngFor="let activity of activities; trackBy: trackByActivity">
+
+          <div
+            class="activity-indicator"
+            [class.warning]="activity.severity === 'warning'"
+            [class.critical]="activity.severity === 'critical'">
+          </div>
+
+          <div class="activity-copy">
+
+            <strong>{{ activity.type }}</strong>
+            <span>{{ activity.camera }}</span>
+
+          </div>
+
+          <time>
+            {{ activity.time }}
+          </time>
+
+        </div>
+
+      </div>
+
+    </article>
+
+  </section>
+
+</div>

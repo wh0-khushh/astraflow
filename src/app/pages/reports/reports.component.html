@@ -1,0 +1,512 @@
+<div class="reports-page">
+
+  <!-- ===================================================== -->
+  <!-- PAGE HEADER -->
+  <!-- ===================================================== -->
+
+  <section class="page-header">
+
+    <div class="header-copy">
+
+      <div class="eyebrow">
+        <span class="eyebrow-dot"></span>
+        TRAFFIC INTELLIGENCE
+      </div>
+
+      <h1>Reports</h1>
+
+      <p>
+        Generate, review and export traffic intelligence reports.
+      </p>
+
+    </div>
+
+    <button
+      class="primary-button"
+      type="button"
+      (click)="generateReport()">
+
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 3v12"></path>
+        <path d="m7 10 5 5 5-5"></path>
+        <path d="M5 21h14"></path>
+      </svg>
+
+      Generate report
+
+    </button>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- REPORT OVERVIEW -->
+  <!-- ===================================================== -->
+
+  <section class="summary-grid">
+
+    <article class="summary-card">
+
+      <div class="summary-icon blue">
+        <svg viewBox="0 0 24 24">
+          <path d="M6 3h9l3 3v15H6V3Z"></path>
+          <path d="M15 3v4h4"></path>
+          <path d="M9 12h6M9 16h6M9 8h2"></path>
+        </svg>
+      </div>
+
+      <div>
+        <span>Total reports</span>
+        <strong>24</strong>
+        <small>Generated this month</small>
+      </div>
+
+    </article>
+
+
+    <article class="summary-card">
+
+      <div class="summary-icon violet">
+        <svg viewBox="0 0 24 24">
+          <path d="M4 19V5"></path>
+          <path d="M4 19h17"></path>
+          <path d="m7 15 4-4 3 2 5-6"></path>
+        </svg>
+      </div>
+
+      <div>
+        <span>Traffic reports</span>
+        <strong>12</strong>
+        <small>Network analytics</small>
+      </div>
+
+    </article>
+
+
+    <article class="summary-card">
+
+      <div class="summary-icon red">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 3l9 18H3L12 3Z"></path>
+          <path d="M12 9v5"></path>
+          <circle cx="12" cy="17" r=".8"></circle>
+        </svg>
+      </div>
+
+      <div>
+        <span>Violation reports</span>
+        <strong>07</strong>
+        <small>Detection events</small>
+      </div>
+
+    </article>
+
+
+    <article class="summary-card">
+
+      <div class="summary-icon cyan">
+        <svg viewBox="0 0 24 24">
+          <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+          <path d="M8 10h8M8 14h5"></path>
+        </svg>
+      </div>
+
+      <div>
+        <span>Exports</span>
+        <strong>18</strong>
+        <small>PDF & CSV files</small>
+      </div>
+
+    </article>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- REPORT GENERATOR -->
+  <!-- ===================================================== -->
+
+  <section class="panel generator-panel">
+
+    <div class="panel-header">
+
+      <div class="panel-title">
+
+        <div class="panel-icon purple-icon">
+
+          <svg viewBox="0 0 24 24">
+            <path d="M6 3h9l3 3v15H6V3Z"></path>
+            <path d="M15 3v4h4"></path>
+            <path d="M9 12h6M9 16h6"></path>
+          </svg>
+
+        </div>
+
+        <div>
+          <h2>Create a report</h2>
+          <span>Configure your traffic intelligence export</span>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="generator-body">
+
+      <div class="field-group">
+
+        <label>Report type</label>
+
+        <div class="select-wrapper">
+
+          <select [(ngModel)]="selectedType">
+
+            <option>All reports</option>
+
+            <option
+              *ngFor="let type of reportTypes"
+              [value]="type">
+
+              {{ type }}
+
+            </option>
+
+          </select>
+
+          <svg viewBox="0 0 16 16">
+            <path d="m4 6 4 4 4-4"></path>
+          </svg>
+
+        </div>
+
+      </div>
+
+
+      <div class="field-group">
+
+        <label>Time period</label>
+
+        <div class="select-wrapper">
+
+          <select
+            [value]="selectedPeriod"
+            (change)="setPeriod($any($event.target).value)">
+
+            <option>Today</option>
+            <option>Last 7 days</option>
+            <option>Last 30 days</option>
+            <option>This month</option>
+
+          </select>
+
+          <svg viewBox="0 0 16 16">
+            <path d="m4 6 4 4 4-4"></path>
+          </svg>
+
+        </div>
+
+      </div>
+
+
+      <div class="generator-action">
+
+        <button
+          class="generate-button"
+          type="button"
+          (click)="generateReport()">
+
+          <svg viewBox="0 0 24 24">
+            <path d="M12 3v12"></path>
+            <path d="m7 10 5 5 5-5"></path>
+            <path d="M5 21h14"></path>
+          </svg>
+
+          Generate
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- REPORT LIST -->
+  <!-- ===================================================== -->
+
+  <section class="panel reports-panel">
+
+    <div class="panel-header">
+
+      <div class="panel-title">
+
+        <div class="panel-icon blue-icon">
+
+          <svg viewBox="0 0 24 24">
+            <path d="M6 3h9l3 3v15H6V3Z"></path>
+            <path d="M15 3v4h4"></path>
+            <path d="M9 12h6M9 16h6"></path>
+          </svg>
+
+        </div>
+
+        <div>
+          <h2>Generated reports</h2>
+          <span>Your latest intelligence reports and exports</span>
+        </div>
+
+      </div>
+
+      <button class="filter-button" type="button">
+
+        <svg viewBox="0 0 20 20">
+          <path d="M4 5h12M6 10h8M8 15h4"></path>
+        </svg>
+
+        Filter
+
+      </button>
+
+    </div>
+
+
+    <!-- DESKTOP TABLE -->
+
+    <div class="reports-table">
+
+      <div class="table-head">
+
+        <span>Report</span>
+        <span>Period</span>
+        <span>Generated</span>
+        <span>Status</span>
+        <span>Format</span>
+        <span></span>
+
+      </div>
+
+
+      <div
+        class="report-row"
+        *ngFor="let report of reports">
+
+        <div class="report-name">
+
+          <div
+            class="file-icon"
+            [class.csv]="report.format === 'CSV'">
+
+            <svg viewBox="0 0 24 24">
+              <path d="M6 3h9l3 3v15H6V3Z"></path>
+              <path d="M15 3v4h4"></path>
+              <path d="M9 13h6M9 17h5"></path>
+            </svg>
+
+          </div>
+
+          <div>
+
+            <strong>{{ report.name }}</strong>
+
+            <span>{{ report.type }}</span>
+
+          </div>
+
+        </div>
+
+
+        <div class="table-cell">
+          {{ report.period }}
+        </div>
+
+
+        <div class="table-cell">
+          {{ report.generated }}
+        </div>
+
+
+        <div>
+
+          <span
+            class="status-badge"
+            [class.processing]="report.status === 'Processing'">
+
+            <i></i>
+            {{ report.status }}
+
+          </span>
+
+        </div>
+
+
+        <div>
+
+          <span
+            class="format-badge"
+            [class.csv]="report.format === 'CSV'">
+
+            {{ report.format }}
+
+          </span>
+
+          <small>{{ report.size }}</small>
+
+        </div>
+
+
+        <div class="row-actions">
+
+          <button
+            type="button"
+            aria-label="View report"
+            (click)="viewReport(report)">
+
+            <svg viewBox="0 0 20 20">
+              <path d="M2.5 10s2.8-5 7.5-5 7.5 5 7.5 5-2.8 5-7.5 5-7.5-5-7.5-5Z"></path>
+              <circle cx="10" cy="10" r="2"></circle>
+            </svg>
+
+          </button>
+
+
+          <button
+            type="button"
+            aria-label="Download report"
+            (click)="downloadReport(report)">
+
+            <svg viewBox="0 0 20 20">
+              <path d="M10 3v9"></path>
+              <path d="m6 9 4 4 4-4"></path>
+              <path d="M4 17h12"></path>
+            </svg>
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- MOBILE CARDS -->
+
+    <div class="mobile-report-list">
+
+      <article
+        class="mobile-report"
+        *ngFor="let report of reports">
+
+        <div class="mobile-report-top">
+
+          <div class="report-name">
+
+            <div
+              class="file-icon"
+              [class.csv]="report.format === 'CSV'">
+
+              <svg viewBox="0 0 24 24">
+                <path d="M6 3h9l3 3v15H6V3Z"></path>
+                <path d="M15 3v4h4"></path>
+                <path d="M9 13h6M9 17h5"></path>
+              </svg>
+
+            </div>
+
+            <div>
+
+              <strong>{{ report.name }}</strong>
+              <span>{{ report.type }}</span>
+
+            </div>
+
+          </div>
+
+          <span class="status-badge">
+
+            <i></i>
+            {{ report.status }}
+
+          </span>
+
+        </div>
+
+
+        <div class="mobile-report-details">
+
+          <div>
+            <span>Period</span>
+            <strong>{{ report.period }}</strong>
+          </div>
+
+          <div>
+            <span>Generated</span>
+            <strong>{{ report.generated }}</strong>
+          </div>
+
+          <div>
+            <span>Format</span>
+            <strong>{{ report.format }} · {{ report.size }}</strong>
+          </div>
+
+        </div>
+
+
+        <div class="mobile-report-actions">
+
+          <button
+            type="button"
+            (click)="viewReport(report)">
+
+            View report
+          </button>
+
+          <button
+            type="button"
+            (click)="downloadReport(report)">
+
+            Download
+
+          </button>
+
+        </div>
+
+      </article>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- REPORT INFO -->
+  <!-- ===================================================== -->
+
+  <section class="report-note">
+
+    <div class="note-icon">
+
+      <svg viewBox="0 0 20 20">
+        <circle cx="10" cy="10" r="7"></circle>
+        <path d="M10 9v5M10 6.5v.2"></path>
+      </svg>
+
+    </div>
+
+    <div>
+
+      <strong>Reports are generated from monitored traffic data</strong>
+
+      <span>
+        Report accuracy depends on active cameras, detection quality
+        and available traffic intelligence data.
+      </span>
+
+    </div>
+
+  </section>
+
+</div>

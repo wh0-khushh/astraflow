@@ -1,0 +1,227 @@
+<div class="notification-wrapper">
+
+  <!-- =====================================================
+       NOTIFICATION BUTTON
+       ===================================================== -->
+
+  <button
+    type="button"
+    class="notification-button"
+    (click)="toggle()"
+    [attr.aria-expanded]="isOpen"
+    aria-label="Notifications">
+
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true">
+
+      <path
+        d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9">
+      </path>
+
+      <path d="M10 21h4"></path>
+
+    </svg>
+
+    <span
+      class="notification-badge"
+      *ngIf="unreadCount > 0">
+
+      {{ unreadCount }}
+
+    </span>
+
+  </button>
+
+
+  <!-- =====================================================
+       DROPDOWN
+       ===================================================== -->
+
+  <div
+    class="notification-panel"
+    *ngIf="isOpen">
+
+
+    <!-- HEADER -->
+
+    <div class="notification-header">
+
+      <div>
+
+        <h3>
+          Notifications
+        </h3>
+
+        <span>
+          {{ unreadCount }} unread
+        </span>
+
+      </div>
+
+
+      <button
+        type="button"
+        class="mark-all"
+        (click)="markAllAsRead()">
+
+        Mark all read
+
+      </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         NOTIFICATION LIST
+         ===================================================== -->
+
+    <div class="notification-list">
+
+      <button
+        type="button"
+        class="notification-item"
+        *ngFor="let notification of notifications"
+        [class.unread]="notification.unread"
+        (click)="markAsRead(notification.id)">
+
+        <div
+          class="notification-icon"
+          [class.violation]="notification.type === 'violation'"
+          [class.camera]="notification.type === 'camera'"
+          [class.alert]="notification.type === 'alert'"
+          [class.report]="notification.type === 'report'">
+
+          <!-- VIOLATION -->
+
+          <svg
+            *ngIf="notification.type === 'violation'"
+            viewBox="0 0 24 24"
+            aria-hidden="true">
+
+            <path d="M12 3l9 18H3L12 3Z"></path>
+            <path d="M12 9v5"></path>
+
+            <circle
+              cx="12"
+              cy="17"
+              r=".7">
+            </circle>
+
+          </svg>
+
+
+          <!-- CAMERA -->
+
+          <svg
+            *ngIf="notification.type === 'camera'"
+            viewBox="0 0 24 24"
+            aria-hidden="true">
+
+            <rect
+              x="3"
+              y="5"
+              width="15"
+              height="14"
+              rx="2">
+            </rect>
+
+            <path d="M18 9l3-2v10l-3-2"></path>
+
+            <circle
+              cx="8"
+              cy="12"
+              r="2">
+            </circle>
+
+          </svg>
+
+
+          <!-- ALERT -->
+
+          <svg
+            *ngIf="notification.type === 'alert'"
+            viewBox="0 0 24 24"
+            aria-hidden="true">
+
+            <path d="M12 3v4"></path>
+            <path d="M12 17v1"></path>
+            <circle
+              cx="12"
+              cy="12"
+              r="8">
+            </circle>
+
+          </svg>
+
+
+          <!-- REPORT -->
+
+          <svg
+            *ngIf="notification.type === 'report'"
+            viewBox="0 0 24 24"
+            aria-hidden="true">
+
+            <path d="M6 3h9l3 3v15H6V3Z"></path>
+            <path d="M9 11h6"></path>
+            <path d="M9 15h6"></path>
+            <path d="M9 7h3"></path>
+
+          </svg>
+
+        </div>
+
+
+        <div class="notification-content">
+
+          <div class="notification-title">
+
+            {{ notification.title }}
+
+            <span
+              class="unread-dot"
+              *ngIf="notification.unread">
+            </span>
+
+          </div>
+
+          <p>
+            {{ notification.message }}
+          </p>
+
+          <span class="notification-time">
+            {{ notification.time }}
+          </span>
+
+        </div>
+
+      </button>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <div class="notification-footer">
+
+      <button
+        type="button">
+
+        View all notifications
+
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true">
+
+          <path d="M5 12h14"></path>
+          <path d="m13 6 6 6-6 6"></path>
+
+        </svg>
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

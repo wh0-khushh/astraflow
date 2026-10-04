@@ -1,0 +1,424 @@
+<div class="auth-page">
+
+  <section class="auth-visual">
+
+    <div class="visual-grid"></div>
+
+    <div class="visual-glow glow-one"></div>
+    <div class="visual-glow glow-two"></div>
+
+    <div class="visual-content">
+
+      <div class="auth-brand">
+
+        <div class="brand-mark">
+
+          <svg viewBox="0 0 42 42" fill="none">
+
+            <path
+              d="M21 3L38 34H30.5L26.8 27H15.2L11.5 34H4L21 3Z"
+              fill="url(#brandGradient)"
+            />
+
+            <path
+              d="M18.7 21.5H25.3L22 15.2L18.7 21.5Z"
+              fill="#08111F"
+            />
+
+            <defs>
+
+              <linearGradient
+                id="brandGradient"
+                x1="8"
+                y1="7"
+                x2="34"
+                y2="35">
+
+                <stop stop-color="#61B8FF"></stop>
+                <stop offset="1" stop-color="#2875FF"></stop>
+
+              </linearGradient>
+
+            </defs>
+
+          </svg>
+
+        </div>
+
+        <div>
+
+          <div class="brand-name">
+            Astra<span>Flow</span>
+          </div>
+
+          <div class="brand-tagline">
+            TRAFFIC INTELLIGENCE
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="visual-copy">
+
+        <span class="eyebrow">
+          <i></i>
+          INTELLIGENT TRAFFIC OPERATIONS
+        </span>
+
+        <h1>
+          Build a clearer<br>
+          <span>view of your network.</span>
+        </h1>
+
+        <p>
+          Centralize traffic monitoring, AI detection and
+          operational intelligence in one workspace.
+        </p>
+
+      </div>
+
+
+      <div class="network-visual">
+
+        <div class="network-lines">
+
+          <span class="line line-one"></span>
+          <span class="line line-two"></span>
+          <span class="line line-three"></span>
+          <span class="line line-four"></span>
+
+        </div>
+
+        <div class="network-node node-one"></div>
+        <div class="network-node node-two"></div>
+        <div class="network-node node-three"></div>
+        <div class="network-node node-four"></div>
+
+      </div>
+
+
+      <div class="visual-footer">
+
+        <span>
+          <i></i>
+          AI inference active
+        </span>
+
+        <span>
+          Secure infrastructure
+        </span>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="auth-panel">
+
+    <div class="auth-form-wrapper">
+
+      <div class="mobile-auth-brand">
+
+        <div class="brand-mark">
+
+          <svg viewBox="0 0 42 42" fill="none">
+
+            <path
+              d="M21 3L38 34H30.5L26.8 27H15.2L11.5 34H4L21 3Z"
+              fill="#3187ED"
+            />
+
+            <path
+              d="M18.7 21.5H25.3L22 15.2L18.7 21.5Z"
+              fill="#08111F"
+            />
+
+          </svg>
+
+        </div>
+
+        <div class="brand-name">
+          Astra<span>Flow</span>
+        </div>
+
+      </div>
+
+
+      <div class="form-heading">
+
+        <span class="form-eyebrow">
+          GET STARTED
+        </span>
+
+        <h2>Create your account</h2>
+
+        <p>
+          Set up your AstraFlow traffic intelligence workspace.
+        </p>
+
+      </div>
+
+
+      <div
+        class="form-error"
+        *ngIf="errorMessage">
+
+        <svg viewBox="0 0 24 24">
+
+          <path d="M12 4l9 16H3L12 4Z"></path>
+          <path d="M12 9v4"></path>
+          <circle cx="12" cy="16.5" r=".7"></circle>
+
+        </svg>
+
+        {{ errorMessage }}
+
+      </div>
+
+
+      <form
+        class="auth-form signup-form"
+        (ngSubmit)="signup()">
+
+        <div class="name-grid">
+
+          <div class="field">
+
+            <label for="firstName">
+              First name
+            </label>
+
+            <input
+              id="firstName"
+              type="text"
+              name="firstName"
+              [(ngModel)]="firstName"
+              placeholder="Khushi"
+              autocomplete="given-name"
+              required
+            />
+
+          </div>
+
+          <div class="field">
+
+            <label for="lastName">
+              Last name
+            </label>
+
+            <input
+              id="lastName"
+              type="text"
+              name="lastName"
+              [(ngModel)]="lastName"
+              placeholder="Kumari"
+              autocomplete="family-name"
+              required
+            />
+
+          </div>
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="signupEmail">
+            Work email
+          </label>
+
+          <div class="input-wrapper">
+
+            <svg viewBox="0 0 24 24">
+
+              <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+              <path d="m4 7 8 6 8-6"></path>
+
+            </svg>
+
+            <input
+              id="signupEmail"
+              type="email"
+              name="email"
+              [(ngModel)]="email"
+              placeholder="you@company.com"
+              autocomplete="email"
+              required
+            />
+
+          </div>
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="signupPassword">
+            Password
+          </label>
+
+          <div class="input-wrapper">
+
+            <svg viewBox="0 0 24 24">
+
+              <rect x="5" y="10" width="14" height="10" rx="2"></rect>
+              <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+
+            </svg>
+
+            <input
+              id="signupPassword"
+              [type]="showPassword ? 'text' : 'password'"
+              name="password"
+              [(ngModel)]="password"
+              placeholder="Create a password"
+              autocomplete="new-password"
+              required
+            />
+
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePassword()">
+
+              {{ showPassword ? 'Hide' : 'Show' }}
+
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="confirmPassword">
+            Confirm password
+          </label>
+
+          <div class="input-wrapper">
+
+            <svg viewBox="0 0 24 24">
+
+              <rect x="5" y="10" width="14" height="10" rx="2"></rect>
+              <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+
+            </svg>
+
+            <input
+              id="confirmPassword"
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              name="confirmPassword"
+              [(ngModel)]="confirmPassword"
+              placeholder="Repeat your password"
+              autocomplete="new-password"
+              required
+            />
+
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="toggleConfirmPassword()">
+
+              {{ showConfirmPassword ? 'Hide' : 'Show' }}
+
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <label class="terms-option">
+
+          <input
+            type="checkbox"
+            name="agreeToTerms"
+            [(ngModel)]="agreeToTerms"
+          />
+
+          <span class="custom-checkbox"></span>
+
+          <span>
+            I agree to the
+            <button type="button">Terms of Service</button>
+            and
+            <button type="button">Privacy Policy</button>.
+          </span>
+
+        </label>
+
+
+        <button
+          class="submit-button"
+          type="submit"
+          [disabled]="isSubmitting">
+
+          <span *ngIf="!isSubmitting">
+            Create account
+          </span>
+
+          <span
+            class="loading-state"
+            *ngIf="isSubmitting">
+
+            <i></i>
+            Creating account...
+
+          </span>
+
+          <svg
+            *ngIf="!isSubmitting"
+            viewBox="0 0 16 16">
+
+            <path d="M3 8h9"></path>
+            <path d="m9 4 4 4-4 4"></path>
+
+          </svg>
+
+        </button>
+
+      </form>
+
+
+      <div class="signup-prompt">
+
+        <span>
+          Already have an account?
+        </span>
+
+        <button
+          type="button"
+          (click)="goToLogin()">
+
+          Sign in
+
+        </button>
+
+      </div>
+
+
+      <div class="security-note">
+
+        <svg viewBox="0 0 24 24">
+
+          <path d="M12 3 19 6v5c0 4.5-2.9 8-7 10-4.1-2-7-5.5-7-10V6l7-3Z"></path>
+          <path d="m9 12 2 2 4-4"></path>
+
+        </svg>
+
+        <span>
+          Your information is protected with secure authentication.
+        </span>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>

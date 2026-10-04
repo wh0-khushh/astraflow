@@ -1,0 +1,556 @@
+<div class="cameras-page">
+
+  <!-- ===================================================== -->
+  <!-- PAGE HEADER -->
+  <!-- ===================================================== -->
+
+  <section class="page-header">
+
+    <div class="header-copy">
+
+      <div class="eyebrow">
+        <span class="eyebrow-dot"></span>
+        CAMERA MANAGEMENT
+      </div>
+
+      <h1>Camera Network</h1>
+
+      <p>
+        Monitor camera health, live streams and connected traffic infrastructure.
+      </p>
+
+    </div>
+
+    <div class="header-actions">
+
+      <button
+        class="refresh-button"
+        type="button"
+        (click)="refreshCameras()">
+
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 11a8 8 0 0 0-14.8-4.2L4 9"></path>
+          <path d="M4 4v5h5"></path>
+          <path d="M4 13a8 8 0 0 0 14.8 4.2L20 15"></path>
+          <path d="M20 20v-5h-5"></path>
+        </svg>
+
+        Refresh network
+
+      </button>
+
+      <button class="primary-button" type="button">
+
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 5v14"></path>
+          <path d="M5 12h14"></path>
+        </svg>
+
+        Add camera
+
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- NETWORK SUMMARY -->
+  <!-- ===================================================== -->
+
+  <section class="summary-grid">
+
+    <article class="summary-card">
+
+      <div class="summary-icon blue">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="6" width="14" height="12" rx="2"></rect>
+          <path d="M17 10l4-2v8l-4-2"></path>
+        </svg>
+      </div>
+
+      <div class="summary-content">
+
+        <span>Total cameras</span>
+
+        <strong>{{ cameras.length | number:'2.0-0' }}</strong>
+
+        <small>Across monitored zones</small>
+
+      </div>
+
+    </article>
+
+
+    <article class="summary-card">
+
+      <div class="summary-icon green">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="8"></circle>
+          <path d="M8 12l2.5 2.5L16 9"></path>
+        </svg>
+      </div>
+
+      <div class="summary-content">
+
+        <span>Online</span>
+
+        <strong>{{ onlineCount }}</strong>
+
+        <small>Healthy connections</small>
+
+      </div>
+
+      <span class="summary-status healthy">
+        {{ onlineCount }}/{{ cameras.length }}
+      </span>
+
+    </article>
+
+
+    <article class="summary-card">
+
+      <div class="summary-icon amber">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 4l9 16H3L12 4z"></path>
+          <path d="M12 9v5"></path>
+          <circle cx="12" cy="17" r=".8"></circle>
+        </svg>
+      </div>
+
+      <div class="summary-content">
+
+        <span>Needs attention</span>
+
+        <strong>{{ warningCount }}</strong>
+
+        <small>Performance warning</small>
+
+      </div>
+
+      <span class="summary-status warning">
+        Review
+      </span>
+
+    </article>
+
+
+    <article class="summary-card">
+
+      <div class="summary-icon red">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="8"></circle>
+          <path d="M9 9l6 6M15 9l-6 6"></path>
+        </svg>
+      </div>
+
+      <div class="summary-content">
+
+        <span>Offline</span>
+
+        <strong>{{ offlineCount }}</strong>
+
+        <small>Connection unavailable</small>
+
+      </div>
+
+      <span class="summary-status offline">
+        Action
+      </span>
+
+    </article>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- CAMERA WORKSPACE -->
+  <!-- ===================================================== -->
+
+  <section class="workspace panel">
+
+    <!-- TOOLBAR -->
+
+    <div class="workspace-toolbar">
+
+      <div class="toolbar-title">
+
+        <div class="section-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="6" width="14" height="12" rx="2"></rect>
+            <path d="M17 10l4-2v8l-4-2"></path>
+          </svg>
+        </div>
+
+        <div>
+          <h2>Connected cameras</h2>
+          <span>
+            {{ filteredCameras.length }} cameras displayed
+          </span>
+        </div>
+
+      </div>
+
+
+      <div class="toolbar-controls">
+
+        <!-- SEARCH -->
+
+        <div class="camera-search">
+
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="6.5"></circle>
+            <path d="m16 16 5 5"></path>
+          </svg>
+
+          <input
+            type="text"
+            [(ngModel)]="searchTerm"
+            placeholder="Search cameras..." />
+
+          <button
+            *ngIf="searchTerm"
+            type="button"
+            (click)="clearSearch()"
+            aria-label="Clear search">
+
+            ×
+
+          </button>
+
+        </div>
+
+
+        <!-- STATUS FILTER -->
+
+        <div class="status-filter">
+
+          <button
+            type="button"
+            [class.active]="selectedStatus === 'all'"
+            (click)="setStatus('all')">
+
+            All
+
+          </button>
+
+          <button
+            type="button"
+            [class.active]="selectedStatus === 'online'"
+            (click)="setStatus('online')">
+
+            Online
+
+          </button>
+
+          <button
+            type="button"
+            [class.active]="selectedStatus === 'warning'"
+            (click)="setStatus('warning')">
+
+            Warning
+
+          </button>
+
+          <button
+            type="button"
+            [class.active]="selectedStatus === 'offline'"
+            (click)="setStatus('offline')">
+
+            Offline
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- CAMERA GRID -->
+
+    <div class="camera-grid">
+
+      <article
+        class="camera-card"
+        *ngFor="let camera of filteredCameras; trackBy: trackByCamera"
+        [class.camera-offline]="camera.status === 'offline'">
+
+        <!-- CAMERA PREVIEW -->
+
+        <div class="camera-preview">
+
+          <div class="preview-grid"></div>
+
+          <div class="road-perspective">
+
+            <span class="road-line line-left"></span>
+            <span class="road-line line-center"></span>
+            <span class="road-line line-right"></span>
+
+          </div>
+
+
+          <!-- Simulated vehicles -->
+
+          <span
+            *ngIf="camera.status !== 'offline'"
+            class="vehicle vehicle-one">
+          </span>
+
+          <span
+            *ngIf="camera.status !== 'offline'"
+            class="vehicle vehicle-two">
+          </span>
+
+          <span
+            *ngIf="camera.status === 'warning'"
+            class="vehicle vehicle-three">
+          </span>
+
+
+          <div class="preview-top">
+
+            <span class="camera-id">
+              {{ camera.id }}
+            </span>
+
+            <span
+              class="status-badge"
+              [class.online]="camera.status === 'online'"
+              [class.warning]="camera.status === 'warning'"
+              [class.offline]="camera.status === 'offline'">
+
+              <i></i>
+
+              {{
+                camera.status === 'online'
+                  ? 'ONLINE'
+                  : camera.status === 'warning'
+                    ? 'WARNING'
+                    : 'OFFLINE'
+              }}
+
+            </span>
+
+          </div>
+
+
+          <div
+            *ngIf="camera.status === 'offline'"
+            class="offline-state">
+
+            <div class="offline-icon">
+
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="3" y="6" width="14" height="12" rx="2"></rect>
+                <path d="M17 10l4-2v8l-4-2"></path>
+                <path d="M8 10l4 4M12 10l-4 4"></path>
+              </svg>
+
+            </div>
+
+            <strong>Stream unavailable</strong>
+            <span>Last seen {{ camera.lastSeen }}</span>
+
+          </div>
+
+
+          <div
+            *ngIf="camera.status !== 'offline'"
+            class="ai-indicator">
+
+            <span></span>
+            AI INFERENCE
+
+          </div>
+
+
+          <div class="preview-bottom">
+
+            <span>
+              {{ camera.resolution }}
+            </span>
+
+            <span *ngIf="camera.fps > 0">
+              {{ camera.fps }} FPS
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- CAMERA INFO -->
+
+        <div class="camera-card-body">
+
+          <div class="camera-heading">
+
+            <div>
+
+              <h3>
+                {{ camera.name }}
+              </h3>
+
+              <span>
+                {{ camera.location }}
+              </span>
+
+            </div>
+
+            <button
+              class="more-button"
+              type="button"
+              aria-label="Camera options">
+
+              <span></span>
+              <span></span>
+              <span></span>
+
+            </button>
+
+          </div>
+
+
+          <div class="camera-stats">
+
+            <div>
+
+              <span>Vehicles</span>
+
+              <strong>
+                {{ camera.vehicles }}
+              </strong>
+
+            </div>
+
+            <div>
+
+              <span>FPS</span>
+
+              <strong>
+                {{ camera.fps || '—' }}
+              </strong>
+
+            </div>
+
+            <div>
+
+              <span>Zone</span>
+
+              <strong>
+                {{ camera.zone }}
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <!-- HEALTH -->
+
+          <div class="camera-health">
+
+            <div class="health-header">
+
+              <span>Camera health</span>
+
+              <strong>
+                {{ camera.health }}%
+              </strong>
+
+            </div>
+
+            <div class="health-bar">
+
+              <span
+                [style.width.%]="camera.health"
+                [class.warning]="camera.health > 0 && camera.health < 90"
+                [class.offline]="camera.health === 0">
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <!-- ACTIONS -->
+
+          <div class="camera-actions">
+
+            <button
+              type="button"
+              class="secondary-action"
+              (click)="manageCamera(camera)">
+
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <circle cx="10" cy="10" r="2.5"></circle>
+                <path d="M16 12.5a1.5 1.5 0 0 0 .2 1.7l.1.1-1.5 1.5-.1-.1a1.5 1.5 0 0 0-1.7-.2 1.5 1.5 0 0 0-.8 1.4v.1h-2.1v-.1a1.5 1.5 0 0 0-.8-1.4 1.5 1.5 0 0 0-1.7.2l-.1.1L6 14.3l.1-.1a1.5 1.5 0 0 0 .2-1.7 1.5 1.5 0 0 0-1.4-.8h-.1V9.6h.1a1.5 1.5 0 0 0 1.4-.8 1.5 1.5 0 0 0-.2-1.7L6 7l1.5-1.5.1.1a1.5 1.5 0 0 0 1.7.2 1.5 1.5 0 0 0 .8-1.4v-.1h2.1v.1a1.5 1.5 0 0 0 .8 1.4 1.5 1.5 0 0 0 1.7-.2l.1-.1L16.3 7l-.1.1a1.5 1.5 0 0 0-.2 1.7 1.5 1.5 0 0 0 1.4.8h.1v2.1h-.1a1.5 1.5 0 0 0-1.4.8Z"></path>
+              </svg>
+
+              Manage
+
+            </button>
+
+
+            <button
+              type="button"
+              class="view-action"
+              [disabled]="camera.status === 'offline'"
+              (click)="openCamera(camera)">
+
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M3 10s2.5-4 7-4 7 4 7 4-2.5 4-7 4-7-4-7-4Z"></path>
+                <circle cx="10" cy="10" r="2"></circle>
+              </svg>
+
+              View live
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- EMPTY STATE -->
+
+      <div
+        *ngIf="filteredCameras.length === 0"
+        class="empty-state">
+
+        <div class="empty-icon">
+
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="6.5"></circle>
+            <path d="m16 16 5 5"></path>
+          </svg>
+
+        </div>
+
+        <h3>No cameras found</h3>
+
+        <p>
+          Try adjusting your search or status filter.
+        </p>
+
+        <button
+          type="button"
+          (click)="clearSearch(); setStatus('all')">
+
+          Clear filters
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>

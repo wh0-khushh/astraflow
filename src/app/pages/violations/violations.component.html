@@ -1,0 +1,486 @@
+<div class="violations-page">
+
+  <!-- PAGE HEADER -->
+  <section class="page-header">
+
+    <div class="header-copy">
+
+      <div class="eyebrow">
+        <span class="eyebrow-dot"></span>
+        TRAFFIC INTELLIGENCE
+      </div>
+
+      <h1>Violations</h1>
+
+      <p>
+        Review, monitor and investigate detected traffic violations across
+        your monitored network.
+      </p>
+
+    </div>
+
+    <div class="header-actions">
+
+      <button
+        type="button"
+        class="secondary-button"
+        (click)="clearFilters()">
+
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 7h16"></path>
+          <path d="M7 4v3M17 4v3"></path>
+          <path d="M6 10v9h12v-9"></path>
+          <path d="M9 14h6"></path>
+        </svg>
+
+        Clear filters
+
+      </button>
+
+      <button
+        type="button"
+        class="primary-button">
+
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3v12"></path>
+          <path d="m7 10 5 5 5-5"></path>
+          <path d="M5 21h14"></path>
+        </svg>
+
+        Export report
+
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- KPI CARDS -->
+  <section class="metric-grid">
+
+    <article class="metric-card">
+
+      <div class="metric-icon blue">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 19V9"></path>
+          <path d="M10 19V5"></path>
+          <path d="M16 19v-7"></path>
+          <path d="M22 19V3"></path>
+          <path d="M2 19h21"></path>
+        </svg>
+      </div>
+
+      <div class="metric-content">
+        <span>Total violations</span>
+        <strong>{{ totalViolations }}</strong>
+        <small>Detected today</small>
+      </div>
+
+    </article>
+
+
+    <article class="metric-card">
+
+      <div class="metric-icon red">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3l9 18H3L12 3Z"></path>
+          <path d="M12 9v5"></path>
+          <circle cx="12" cy="17" r=".8"></circle>
+        </svg>
+      </div>
+
+      <div class="metric-content">
+        <span>Critical</span>
+        <strong>{{ criticalCount }}</strong>
+        <small>Require immediate attention</small>
+      </div>
+
+    </article>
+
+
+    <article class="metric-card">
+
+      <div class="metric-icon amber">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="8"></circle>
+          <path d="M12 8v4l3 2"></path>
+        </svg>
+      </div>
+
+      <div class="metric-content">
+        <span>Warnings</span>
+        <strong>{{ warningCount }}</strong>
+        <small>Require review</small>
+      </div>
+
+    </article>
+
+
+    <article class="metric-card">
+
+      <div class="metric-icon violet">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 12l4 4L19 6"></path>
+        </svg>
+      </div>
+
+      <div class="metric-content">
+        <span>Open cases</span>
+        <strong>{{ openCount }}</strong>
+        <small>Awaiting review</small>
+      </div>
+
+    </article>
+
+  </section>
+
+
+  <!-- MAIN PANEL -->
+  <section class="panel violations-panel">
+
+    <!-- PANEL HEADER -->
+    <div class="panel-header">
+
+      <div class="panel-title">
+
+        <div class="panel-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3l9 18H3L12 3Z"></path>
+            <path d="M12 9v5"></path>
+            <circle cx="12" cy="17" r=".8"></circle>
+          </svg>
+        </div>
+
+        <div>
+          <h2>Violation events</h2>
+          <span>
+            {{ filteredViolations.length }} events currently visible
+          </span>
+        </div>
+
+      </div>
+
+      <div class="live-indicator">
+        <span></span>
+        Live detection
+      </div>
+
+    </div>
+
+
+    <!-- FILTER TOOLBAR -->
+    <div class="filter-toolbar">
+
+      <div class="search-field">
+
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="6.5"></circle>
+          <path d="m16 16 5 5"></path>
+        </svg>
+
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          placeholder="Search violations, cameras, vehicles..."
+          aria-label="Search violations"
+        />
+
+      </div>
+
+
+      <div class="filter-select">
+
+        <label for="severityFilter">Severity</label>
+
+        <select
+          id="severityFilter"
+          [(ngModel)]="selectedSeverity">
+
+          <option value="all">All severity</option>
+          <option value="critical">Critical</option>
+          <option value="warning">Warning</option>
+          <option value="normal">Normal</option>
+
+        </select>
+
+      </div>
+
+
+      <div class="filter-select">
+
+        <label for="statusFilter">Status</label>
+
+        <select
+          id="statusFilter"
+          [(ngModel)]="selectedStatus">
+
+          <option value="all">All status</option>
+          <option value="open">Open</option>
+          <option value="reviewed">Reviewed</option>
+          <option value="resolved">Resolved</option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+
+    <!-- TABLE -->
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Violation</th>
+            <th>Location</th>
+            <th>Vehicle</th>
+            <th>Time</th>
+            <th>Severity</th>
+            <th>Status</th>
+            <th>Confidence</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr
+            *ngFor="
+              let violation of filteredViolations;
+              trackBy: trackByViolation
+            ">
+
+            <!-- VIOLATION -->
+            <td>
+
+              <div class="violation-cell">
+
+                <div
+                  class="event-icon"
+                  [class.critical]="violation.severity === 'critical'"
+                  [class.warning]="violation.severity === 'warning'"
+                  [class.normal]="violation.severity === 'normal'">
+
+                  <svg viewBox="0 0 20 20" aria-hidden="true">
+                    <path d="M10 2l8 15H2L10 2Z"></path>
+                    <path d="M10 7v4"></path>
+                    <circle cx="10" cy="13.5" r=".7"></circle>
+                  </svg>
+
+                </div>
+
+                <div class="violation-copy">
+                  <strong>{{ violation.type }}</strong>
+                  <span>{{ violation.id }}</span>
+                </div>
+
+              </div>
+
+            </td>
+
+
+            <!-- LOCATION -->
+            <td>
+
+              <div class="location-cell">
+
+                <strong>{{ violation.location }}</strong>
+
+                <span>{{ violation.camera }}</span>
+
+              </div>
+
+            </td>
+
+
+            <!-- VEHICLE -->
+            <td>
+
+              <div class="vehicle-cell">
+
+                <div class="vehicle-mini-icon">
+
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 16l1.4-6h11.2L19 16"></path>
+                    <path d="M4 16h16v4H4z"></path>
+                    <circle cx="7" cy="19" r="1"></circle>
+                    <circle cx="17" cy="19" r="1"></circle>
+                  </svg>
+
+                </div>
+
+                <div>
+                  <strong>{{ violation.vehicle }}</strong>
+                  <span>{{ violation.vehicleType }}</span>
+                </div>
+
+              </div>
+
+            </td>
+
+
+            <!-- TIME -->
+            <td>
+
+              <div class="time-cell">
+                <strong>{{ violation.time }}</strong>
+                <span>{{ violation.date }}</span>
+              </div>
+
+            </td>
+
+
+            <!-- SEVERITY -->
+            <td>
+
+              <span
+                class="severity-badge"
+                [class.critical]="violation.severity === 'critical'"
+                [class.warning]="violation.severity === 'warning'"
+                [class.normal]="violation.severity === 'normal'">
+
+                <span></span>
+
+                {{
+                  violation.severity === 'critical'
+                    ? 'Critical'
+                    : violation.severity === 'warning'
+                      ? 'Warning'
+                      : 'Normal'
+                }}
+
+              </span>
+
+            </td>
+
+
+            <!-- STATUS -->
+            <td>
+
+              <span
+                class="status-badge"
+                [class.open]="violation.status === 'open'"
+                [class.reviewed]="violation.status === 'reviewed'"
+                [class.resolved]="violation.status === 'resolved'">
+
+                {{
+                  violation.status === 'open'
+                    ? 'Open'
+                    : violation.status === 'reviewed'
+                      ? 'Reviewed'
+                      : 'Resolved'
+                }}
+
+              </span>
+
+            </td>
+
+
+            <!-- CONFIDENCE -->
+            <td>
+
+              <div class="confidence">
+
+                <div class="confidence-track">
+                  <span
+                    [style.width.%]="violation.confidence">
+                  </span>
+                </div>
+
+                <strong>{{ violation.confidence }}%</strong>
+
+              </div>
+
+            </td>
+
+
+            <!-- ACTION -->
+            <td>
+
+              <button
+                class="row-action"
+                type="button"
+                aria-label="Review violation"
+                (click)="reviewViolation(violation)">
+
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M3 10h12"></path>
+                  <path d="m11 6 4 4-4 4"></path>
+                </svg>
+
+              </button>
+
+            </td>
+
+          </tr>
+
+
+          <!-- EMPTY STATE -->
+          <tr *ngIf="filteredViolations.length === 0">
+
+            <td
+              class="empty-cell"
+              colspan="8">
+
+              <div class="empty-state">
+
+                <div class="empty-icon">
+
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="11" cy="11" r="6"></circle>
+                    <path d="m16 16 5 5"></path>
+                  </svg>
+
+                </div>
+
+                <strong>No violations found</strong>
+
+                <span>
+                  Try adjusting your search or filters.
+                </span>
+
+                <button
+                  type="button"
+                  (click)="clearFilters()">
+
+                  Reset filters
+
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <!-- FOOTER -->
+    <div class="table-footer">
+
+      <span>
+        Showing
+        <strong>{{ filteredViolations.length }}</strong>
+        of
+        <strong>{{ totalViolations }}</strong>
+        violations
+      </span>
+
+      <span class="footer-status">
+        <span></span>
+        Detection engine online
+      </span>
+
+    </div>
+
+  </section>
+
+</div>

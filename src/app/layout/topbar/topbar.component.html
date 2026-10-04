@@ -1,0 +1,139 @@
+<header class="topbar">
+
+  <!-- MOBILE BRAND -->
+  <div class="mobile-brand">
+
+    <div class="brand-mark brand-mark-small">
+      <svg
+        viewBox="0 0 42 42"
+        fill="none"
+        aria-hidden="true">
+
+        <path
+          d="M21 3L38 34H30.5L26.8 27H15.2L11.5 34H4L21 3Z"
+          fill="url(#topbarBrandGradient)"
+        />
+
+        <path
+          d="M18.7 21.5H25.3L22 15.2L18.7 21.5Z"
+          fill="currentColor"
+        />
+
+        <defs>
+          <linearGradient
+            id="topbarBrandGradient"
+            x1="8"
+            y1="7"
+            x2="34"
+            y2="35"
+            gradientUnits="userSpaceOnUse">
+
+            <stop offset="0%" stop-color="#61B8FF" />
+            <stop offset="100%" stop-color="#2875FF" />
+
+          </linearGradient>
+        </defs>
+
+      </svg>
+    </div>
+
+    <div class="mobile-brand-copy">
+      <strong>
+        Astra<span>Flow</span>
+      </strong>
+
+      <small>TRAFFIC INTELLIGENCE</small>
+    </div>
+
+  </div>
+
+
+  <!-- MOBILE MENU -->
+  <button
+    class="mobile-menu-button"
+    type="button"
+    aria-label="Open navigation"
+    (click)="onMenuClick()">
+
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 6h16"></path>
+      <path d="M4 12h16"></path>
+      <path d="M4 18h16"></path>
+    </svg>
+
+  </button>
+
+
+  <!-- SEARCH -->
+  <div class="search-box">
+
+    <svg
+      class="search-icon"
+      viewBox="0 0 24 24"
+      aria-hidden="true">
+
+      <circle
+        cx="11"
+        cy="11"
+        r="6.5">
+      </circle>
+
+      <path d="m16 16 5 5"></path>
+
+    </svg>
+
+    <input
+      type="search"
+      placeholder="Search cameras, vehicles, zones..."
+      aria-label="Search"
+    />
+
+    <span class="search-shortcut">
+      <kbd>⌘</kbd>
+      <kbd>K</kbd>
+    </span>
+
+  </div>
+
+
+  <!-- ACTIONS -->
+  <div class="topbar-actions">
+
+    <!-- NOTIFICATIONS -->
+<app-notifications></app-notifications>
+
+
+    <div class="top-divider"></div>
+
+
+    <!-- PROFILE -->
+<div class="profile">
+
+  <div class="avatar">
+    K
+  </div>
+
+  <div class="profile-info">
+    <strong>Khushi</strong>
+    <span>Administrator</span>
+  </div>
+
+  <button
+    class="logout-button"
+    type="button"
+    (click)="logout()"
+    aria-label="Logout">
+
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M10 5H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4"></path>
+      <path d="M14 8l4 4-4 4"></path>
+      <path d="M9 12h9"></path>
+    </svg>
+
+  </button>
+
+</div>
+
+  </div>
+
+</header>

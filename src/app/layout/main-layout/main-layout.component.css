@@ -1,0 +1,204 @@
+:host {
+  display: block;
+
+  width: 100%;
+  height: 100vh;
+
+  overflow: hidden;
+}
+
+.app-shell {
+  width: 100%;
+  height: 100vh;
+
+  display: flex;
+
+  overflow: hidden;
+
+  background: #08111f;
+}
+
+
+/* =========================================================
+   DESKTOP SIDEBAR
+   ========================================================= */
+
+.sidebar-container {
+  width: 248px;
+  height: 100vh;
+
+  flex: 0 0 248px;
+
+  position: relative;
+  z-index: 200;
+
+  border-right: 1px solid rgba(148, 163, 184, 0.09);
+}
+
+
+/* =========================================================
+   MAIN AREA
+   ========================================================= */
+
+.main-area {
+  min-width: 0;
+  min-height: 0;
+
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 85% 0%,
+      rgba(40, 117, 255, 0.045),
+      transparent 28%
+    ),
+    #08111f;
+}
+
+
+/* =========================================================
+   PAGE CONTENT
+   ========================================================= */
+
+.page-container {
+  flex: 1;
+
+  min-width: 0;
+  min-height: 0;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color:
+    rgba(105, 126, 151, 0.28)
+    transparent;
+}
+
+.page-container::-webkit-scrollbar {
+  width: 7px;
+}
+
+.page-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.page-container::-webkit-scrollbar-thumb {
+  background: rgba(105, 126, 151, 0.25);
+
+  border-radius: 10px;
+}
+
+.page-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(105, 126, 151, 0.4);
+}
+
+
+/* =========================================================
+   MOBILE SIDEBAR
+   ========================================================= */
+
+.mobile-sidebar {
+  display: none;
+
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: min(292px, 86vw);
+  height: 100vh;
+
+  z-index: 1000;
+
+  transform: translateX(-105%);
+
+  transition:
+    transform 260ms cubic-bezier(.22, .8, .25, 1);
+
+  box-shadow:
+    18px 0 55px rgba(0, 0, 0, 0.35);
+}
+
+.mobile-sidebar.is-open {
+  transform: translateX(0);
+}
+
+
+/* =========================================================
+   MOBILE BACKDROP
+   ========================================================= */
+
+.mobile-backdrop {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 900;
+
+  background: rgba(2, 7, 14, 0.62);
+
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition:
+    opacity 220ms ease,
+    visibility 220ms ease;
+}
+
+.mobile-backdrop.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .sidebar-container {
+    display: none;
+  }
+
+  .mobile-sidebar {
+    display: block;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 680px) {
+
+  .page-container {
+    overflow-x: hidden;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .mobile-sidebar,
+  .mobile-backdrop {
+    transition: none;
+  }
+
+}

@@ -1,0 +1,1167 @@
+<div class="dashboard">
+
+  <!-- ========================================================= -->
+  <!-- PAGE HEADER -->
+  <!-- ========================================================= -->
+
+  <section class="dashboard-header">
+
+    <div class="header-copy">
+
+      <div class="eyebrow">
+        <span class="live-dot"></span>
+        LIVE TRAFFIC INTELLIGENCE
+      </div>
+
+      <h1>Dashboard</h1>
+
+      <p>
+        Real-time visibility across your monitored traffic network.
+      </p>
+
+    </div>
+
+    <div class="header-status">
+
+      <div class="date-block">
+
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+          <path d="M16 3v4M8 3v4M3 10h18"></path>
+        </svg>
+
+        <div>
+          <span>Today</span>
+          <strong>{{ currentDate }}</strong>
+        </div>
+
+      </div>
+
+      <div class="system-status">
+        <span></span>
+        System operational
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ========================================================= -->
+  <!-- KPI STRIP -->
+  <!-- ========================================================= -->
+
+  <section class="metric-grid">
+
+    <article
+      class="metric-card"
+      *ngFor="let metric of dashboardMetrics; trackBy: trackByMetric">
+
+      <div class="metric-top">
+
+        <div
+          class="metric-icon"
+          [class.blue]="metric.accent === 'blue'"
+          [class.violet]="metric.accent === 'violet'"
+          [class.red]="metric.accent === 'red'"
+          [class.cyan]="metric.accent === 'cyan'">
+
+          <!-- VEHICLES -->
+          <svg
+            *ngIf="metric.icon === 'vehicles'"
+            viewBox="0 0 24 24"
+            aria-hidden="true">
+            <path d="M5 16l1.4-6h11.2L19 16"></path>
+            <path d="M4 16h16v4H4z"></path>
+            <circle cx="7" cy="19" r="1.2"></circle>
+            <circle cx="17" cy="19" r="1.2"></circle>
+            <path d="M7 10l1.2-3h7.6l1.2 3"></path>
+          </svg>
+
+          <!-- SPEED -->
+          <svg
+            *ngIf="metric.icon === 'speed'"
+            viewBox="0 0 24 24"
+            aria-hidden="true">
+            <path d="M4.5 17a8 8 0 1 1 15 0"></path>
+            <path d="M12 13l4-4"></path>
+            <circle cx="12" cy="13" r="1.5"></circle>
+          </svg>
+
+          <!-- ALERTS -->
+          <svg
+            *ngIf="metric.icon === 'alerts'"
+            viewBox="0 0 24 24"
+            aria-hidden="true">
+            <path d="M12 4l9 16H3L12 4z"></path>
+            <path d="M12 9v5"></path>
+            <circle cx="12" cy="17" r=".8"></circle>
+          </svg>
+
+          <!-- ZONES -->
+          <svg
+            *ngIf="metric.icon === 'zones'"
+            viewBox="0 0 24 24"
+            aria-hidden="true">
+            <path d="M12 21s7-6.1 7-11A7 7 0 0 0 5 10c0 4.9 7 11 7 11z"></path>
+            <circle cx="12" cy="10" r="2.3"></circle>
+          </svg>
+
+        </div>
+
+        <span class="metric-label">
+          {{ metric.label }}
+        </span>
+
+      </div>
+
+
+      <div class="metric-value-row">
+
+        <strong>{{ metric.value }}</strong>
+
+        <span
+          class="metric-unit"
+          *ngIf="metric.unit">
+          {{ metric.unit }}
+        </span>
+
+      </div>
+
+
+      <div class="metric-bottom">
+
+        <span
+          class="metric-change"
+          [class.negative]="metric.trend === 'down'"
+          [class.neutral]="metric.trend === 'neutral'">
+
+          <svg
+            *ngIf="metric.trend === 'up'"
+            viewBox="0 0 16 16"
+            aria-hidden="true">
+            <path d="M3 11l4-4 3 3 4-5"></path>
+            <path d="M10 5h4v4"></path>
+          </svg>
+
+          <svg
+            *ngIf="metric.trend === 'down'"
+            viewBox="0 0 16 16"
+            aria-hidden="true">
+            <path d="M3 5l4 4 3-3 4 5"></path>
+            <path d="M10 11h4V7"></path>
+          </svg>
+
+          <span>{{ metric.comparison }}</span>
+
+        </span>
+
+        <span class="metric-context">
+          {{ metric.description }}
+        </span>
+
+      </div>
+
+    </article>
+
+  </section>
+
+
+  <!-- ========================================================= -->
+  <!-- MAIN INTELLIGENCE GRID -->
+  <!-- ========================================================= -->
+
+  <section class="main-grid">
+
+
+    <!-- ======================================================= -->
+    <!-- TRAFFIC NETWORK -->
+    <!-- ======================================================= -->
+
+    <article class="panel network-panel">
+
+      <div class="panel-header">
+
+        <div class="panel-title">
+
+          <div class="panel-icon blue-icon">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 19V9"></path>
+              <path d="M12 19V5"></path>
+              <path d="M19 19v-7"></path>
+              <path d="M3 19h18"></path>
+            </svg>
+
+          </div>
+
+          <div>
+            <h2>Traffic Network</h2>
+            <span>Live network condition</span>
+          </div>
+
+        </div>
+
+        <button class="select-control" type="button">
+
+          All zones
+
+          <svg viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M4 6l4 4 4-4"></path>
+          </svg>
+
+        </button>
+
+      </div>
+
+
+      <div class="network-map">
+
+        <div class="map-grid"></div>
+
+        <div class="map-scanline"></div>
+
+        <svg
+          class="network-svg"
+          viewBox="0 0 800 430"
+          preserveAspectRatio="none"
+          aria-label="Simulated traffic network">
+
+          <!-- major roads -->
+
+          <path
+            class="road-base"
+            d="M-40 318 C130 250 170 275 320 230 S600 120 840 70">
+          </path>
+
+          <path
+            class="road-glow normal-road"
+            d="M-40 318 C130 250 170 275 320 230 S600 120 840 70">
+          </path>
+
+
+          <path
+            class="road-base"
+            d="M95 -30 C170 95 260 130 370 205 S570 330 850 410">
+          </path>
+
+          <path
+            class="road-glow moderate-road"
+            d="M95 -30 C170 95 260 130 370 205 S570 330 850 410">
+          </path>
+
+
+          <path
+            class="road-base"
+            d="M-20 80 C150 145 240 155 385 150 S610 155 830 245">
+          </path>
+
+          <path
+            class="road-glow normal-road"
+            d="M-20 80 C150 145 240 155 385 150 S610 155 830 245">
+          </path>
+
+
+          <path
+            class="road-base"
+            d="M515 -30 C480 80 460 145 455 220 S480 330 560 460">
+          </path>
+
+          <path
+            class="road-glow congested-road"
+            d="M515 -30 C480 80 460 145 455 220 S480 330 560 460">
+          </path>
+
+
+          <!-- intersections -->
+
+          <circle
+            class="intersection"
+            cx="320"
+            cy="230"
+            r="9">
+          </circle>
+
+          <circle
+            class="intersection"
+            cx="455"
+            cy="220"
+            r="9">
+          </circle>
+
+          <circle
+            class="intersection"
+            cx="385"
+            cy="150"
+            r="8">
+          </circle>
+
+
+          <!-- camera nodes -->
+
+          <g
+            class="map-camera normal-camera"
+            transform="translate(190 150)">
+
+            <circle r="17"></circle>
+
+            <path d="M-5-4h7l3-3v14l-3-3h-7z"></path>
+
+          </g>
+
+
+          <g
+            class="map-camera normal-camera"
+            transform="translate(590 128)">
+
+            <circle r="17"></circle>
+
+            <path d="M-5-4h7l3-3v14l-3-3h-7z"></path>
+
+          </g>
+
+
+          <g
+            class="map-camera alert-camera"
+            transform="translate(335 285)">
+
+            <circle r="17"></circle>
+
+            <path d="M-5-4h7l3-3v14l-3-3h-7z"></path>
+
+          </g>
+
+
+          <g
+            class="map-camera normal-camera"
+            transform="translate(610 315)">
+
+            <circle r="17"></circle>
+
+            <path d="M-5-4h7l3-3v14l-3-3h-7z"></path>
+
+          </g>
+
+        </svg>
+
+
+        <!-- camera labels -->
+
+        <div class="camera-label label-one">
+          <span></span>
+
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M3 6h8l4-3v14l-4-3H3z"></path>
+          </svg>
+
+          CAM 01
+        </div>
+
+
+        <div class="camera-label label-two">
+          <span></span>
+
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M3 6h8l4-3v14l-4-3H3z"></path>
+          </svg>
+
+          CAM 02
+        </div>
+
+
+        <div class="camera-label alert-label label-three">
+          <span></span>
+
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M3 6h8l4-3v14l-4-3H3z"></path>
+          </svg>
+
+          CAM 03
+        </div>
+
+
+        <div class="camera-label label-four">
+          <span></span>
+
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M3 6h8l4-3v14l-4-3H3z"></path>
+          </svg>
+
+          CAM 04
+        </div>
+
+
+        <!-- map controls -->
+
+        <div class="map-controls">
+
+          <button type="button" aria-label="Zoom in">+</button>
+          <button type="button" aria-label="Zoom out">−</button>
+
+          <button
+            class="locate-button"
+            type="button"
+            aria-label="Center map">
+
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <circle cx="10" cy="10" r="5"></circle>
+              <path d="M10 2v3M10 15v3M2 10h3M15 10h3"></path>
+            </svg>
+
+          </button>
+
+        </div>
+
+
+        <!-- legend -->
+
+        <div class="map-legend">
+
+          <span>
+            <i class="normal-dot"></i>
+            Normal
+          </span>
+
+          <span>
+            <i class="moderate-dot"></i>
+            Moderate
+          </span>
+
+          <span>
+            <i class="congested-dot"></i>
+            Congested
+          </span>
+
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- ======================================================= -->
+    <!-- LIVE CAMERA -->
+    <!-- ======================================================= -->
+
+    <article class="panel live-panel">
+
+      <div class="panel-header">
+
+        <div class="panel-title">
+
+          <div class="panel-icon cyan-icon">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="6" width="14" height="12" rx="2"></rect>
+              <path d="M17 10l4-2v8l-4-2z"></path>
+            </svg>
+
+          </div>
+
+          <div>
+            <h2>Live Monitor</h2>
+            <span>CAM-01 · Central Junction</span>
+          </div>
+
+        </div>
+
+        <div class="live-badge">
+          <span></span>
+          LIVE
+        </div>
+
+      </div>
+
+
+      <div class="camera-frame">
+
+        <div class="camera-road"></div>
+
+        <div class="lane lane-left"></div>
+        <div class="lane lane-center"></div>
+        <div class="lane lane-right"></div>
+
+
+        <!-- detection boxes -->
+
+        <div
+          class="detection-box"
+          *ngFor="let detection of detections; trackBy: trackByDetection"
+          [style.left.%]="detection.x"
+          [style.top.%]="detection.y"
+          [style.width.%]="detection.width"
+          [style.height.%]="detection.height"
+          [class.bus-box]="detection.type === 'bus'">
+
+          <span class="detection-label">
+            {{ detection.label }} · {{ detection.confidence }}%
+          </span>
+
+          <span class="tracking-id">
+            ID {{ detection.trackingId }}
+          </span>
+
+        </div>
+
+
+        <div class="camera-overlay-top">
+          <span>CAM-01</span>
+          <span>AI INFERENCE ACTIVE</span>
+        </div>
+
+
+        <div class="camera-overlay-bottom">
+          <span>18 objects detected</span>
+          <span>28 FPS</span>
+        </div>
+
+      </div>
+
+
+      <div class="camera-footer">
+
+        <div>
+          <strong>Central Junction</strong>
+          <span>Sector 12 · Main Road</span>
+        </div>
+
+        <button class="text-action" type="button">
+
+          View monitor
+
+          <svg viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M4 8h8M9 4l4 4-4 4"></path>
+          </svg>
+
+        </button>
+
+      </div>
+
+    </article>
+
+
+    <!-- ======================================================= -->
+    <!-- VEHICLE DISTRIBUTION -->
+    <!-- ======================================================= -->
+
+    <article class="panel vehicle-panel">
+
+      <div class="panel-header">
+
+        <div class="panel-title">
+
+          <div class="panel-icon purple-icon">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 16l1.4-6h11.2L19 16"></path>
+              <path d="M4 16h16v4H4z"></path>
+              <circle cx="7" cy="19" r="1.2"></circle>
+              <circle cx="17" cy="19" r="1.2"></circle>
+            </svg>
+
+          </div>
+
+          <div>
+            <h2>Vehicle Mix</h2>
+            <span>Current detection</span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="vehicle-list">
+
+        <div
+          class="vehicle-row"
+          *ngFor="let vehicle of vehicleTypes; trackBy: trackByLabel">
+
+          <div
+            class="vehicle-icon"
+            [class.blue]="vehicle.accent === 'blue'"
+            [class.amber]="vehicle.accent === 'amber'"
+            [class.violet]="vehicle.accent === 'violet'"
+            [class.red]="vehicle.accent === 'red'"
+            [class.slate]="vehicle.accent === 'slate'">
+
+            <svg
+              *ngIf="vehicle.icon === 'car'"
+              viewBox="0 0 24 24"
+              aria-hidden="true">
+              <path d="M5 16l1.4-6h11.2L19 16"></path>
+              <path d="M4 16h16v4H4z"></path>
+              <circle cx="7" cy="19" r="1"></circle>
+              <circle cx="17" cy="19" r="1"></circle>
+            </svg>
+
+
+            <svg
+              *ngIf="vehicle.icon === 'bike'"
+              viewBox="0 0 24 24"
+              aria-hidden="true">
+              <circle cx="6" cy="17" r="3"></circle>
+              <circle cx="18" cy="17" r="3"></circle>
+              <path d="M6 17l4-7h4l4 7M10 10l-2-3h3"></path>
+            </svg>
+
+
+            <svg
+              *ngIf="vehicle.icon === 'bus'"
+              viewBox="0 0 24 24"
+              aria-hidden="true">
+              <rect x="5" y="4" width="14" height="15" rx="2"></rect>
+              <path d="M5 10h14M8 19v2M16 19v2"></path>
+              <circle cx="8" cy="16" r="1"></circle>
+              <circle cx="16" cy="16" r="1"></circle>
+            </svg>
+
+
+            <svg
+              *ngIf="vehicle.icon === 'truck'"
+              viewBox="0 0 24 24"
+              aria-hidden="true">
+              <path d="M3 6h12v11H3z"></path>
+              <path d="M15 10h4l3 3v4h-7z"></path>
+              <circle cx="7" cy="18" r="1.5"></circle>
+              <circle cx="18" cy="18" r="1.5"></circle>
+            </svg>
+
+
+            <svg
+              *ngIf="vehicle.icon === 'other'"
+              viewBox="0 0 24 24"
+              aria-hidden="true">
+              <circle cx="6" cy="12" r="1.5"></circle>
+              <circle cx="12" cy="12" r="1.5"></circle>
+              <circle cx="18" cy="12" r="1.5"></circle>
+            </svg>
+
+          </div>
+
+
+          <div class="vehicle-info">
+
+            <div class="vehicle-name-row">
+              <span>{{ vehicle.label }}</span>
+              <strong>{{ vehicle.count }}</strong>
+            </div>
+
+            <div class="vehicle-progress">
+              <span
+                [style.width.%]="vehicle.percentage"
+                [class]="vehicle.accent">
+              </span>
+            </div>
+
+          </div>
+
+
+          <span class="vehicle-percent">
+            {{ vehicle.percentage }}%
+          </span>
+
+        </div>
+
+      </div>
+
+    </article>
+
+  </section>
+
+
+  <!-- ========================================================= -->
+  <!-- ANALYTICS ROW -->
+  <!-- ========================================================= -->
+
+  <section class="analytics-grid">
+
+
+    <!-- ======================================================= -->
+    <!-- TRAFFIC FLOW -->
+    <!-- ======================================================= -->
+
+    <article class="panel flow-panel">
+
+      <div class="panel-header">
+
+        <div class="panel-title">
+
+          <div class="panel-icon blue-icon">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 18V6"></path>
+              <path d="M4 18h16"></path>
+              <path d="M7 14l4-4 3 2 5-6"></path>
+            </svg>
+
+          </div>
+
+          <div>
+            <h2>Traffic Flow</h2>
+            <span>Vehicle volume and speed trend</span>
+          </div>
+
+        </div>
+
+
+        <div class="range-control">
+
+          <button
+            type="button"
+            *ngFor="let range of ranges"
+            [class.active]="selectedRange === range"
+            (click)="setRange(range)">
+            {{ range }}
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="chart-area">
+
+        <div class="y-axis">
+          <span>1000</span>
+          <span>750</span>
+          <span>500</span>
+          <span>250</span>
+          <span>0</span>
+        </div>
+
+
+        <div class="chart">
+
+          <div class="chart-grid-line line-1"></div>
+          <div class="chart-grid-line line-2"></div>
+          <div class="chart-grid-line line-3"></div>
+          <div class="chart-grid-line line-4"></div>
+          <div class="chart-grid-line line-5"></div>
+
+
+          <svg
+            viewBox="0 0 455 180"
+            preserveAspectRatio="none">
+
+            <defs>
+
+              <linearGradient
+                id="flowArea"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1">
+
+                <stop
+                  offset="0%"
+                  stop-color="#2688ff"
+                  stop-opacity=".28">
+                </stop>
+
+                <stop
+                  offset="100%"
+                  stop-color="#2688ff"
+                  stop-opacity="0">
+                </stop>
+
+              </linearGradient>
+
+            </defs>
+
+
+            <polygon
+              class="flow-area"
+              points="0,142 35,135 70,126 105,113 140,88 175,102 210,121 245,115 280,72 315,51 350,68 385,61 420,82 455,96 455,180 0,180">
+            </polygon>
+
+
+            <polyline
+              class="flow-line"
+              [attr.points]="flowPoints">
+            </polyline>
+
+
+            <polyline
+              class="speed-line"
+              [attr.points]="speedPoints">
+            </polyline>
+
+          </svg>
+
+        </div>
+
+      </div>
+
+
+      <div class="chart-x-axis">
+        <span>12 AM</span>
+        <span>4 AM</span>
+        <span>8 AM</span>
+        <span>12 PM</span>
+        <span>4 PM</span>
+        <span>8 PM</span>
+        <span>12 AM</span>
+      </div>
+
+
+      <div class="chart-legend">
+
+        <span>
+          <i class="legend-blue"></i>
+          Vehicle volume
+        </span>
+
+        <span>
+          <i class="legend-green"></i>
+          Average speed
+        </span>
+
+      </div>
+
+    </article>
+
+
+    <!-- ======================================================= -->
+    <!-- TRAFFIC STATUS -->
+    <!-- ======================================================= -->
+
+    <article class="panel status-panel">
+
+      <div class="panel-header">
+
+        <div class="panel-title">
+
+          <div class="panel-icon cyan-icon">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="8"></circle>
+              <path d="M12 8v4l3 2"></path>
+            </svg>
+
+          </div>
+
+          <div>
+            <h2>Traffic Status</h2>
+            <span>Current network condition</span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="status-content">
+
+        <div class="status-donut">
+
+          <div class="donut">
+
+            <div class="donut-center">
+              <strong>68%</strong>
+              <span>Normal</span>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="status-breakdown">
+
+          <div>
+            <span>
+              <i class="status-green"></i>
+              Normal
+            </span>
+            <strong>68%</strong>
+          </div>
+
+
+          <div>
+            <span>
+              <i class="status-yellow"></i>
+              Moderate
+            </span>
+            <strong>22%</strong>
+          </div>
+
+
+          <div>
+            <span>
+              <i class="status-red"></i>
+              Congested
+            </span>
+            <strong>10%</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- ======================================================= -->
+    <!-- RECENT ACTIVITY -->
+    <!-- ======================================================= -->
+
+    <article class="panel activity-panel">
+
+      <div class="panel-header">
+
+        <div class="panel-title">
+
+          <div class="panel-icon red-icon">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="8"></circle>
+              <path d="M12 8v4l3 2"></path>
+            </svg>
+
+          </div>
+
+          <div>
+            <h2>Recent Activity</h2>
+            <span>Latest intelligence events</span>
+          </div>
+
+        </div>
+
+
+        <button class="view-all" type="button">
+          View all
+        </button>
+
+      </div>
+
+
+      <div class="activity-list">
+
+        <div
+          class="activity-item"
+          *ngFor="let event of events; trackBy: trackByEvent">
+
+          <div
+            class="activity-icon"
+            [class.normal]="event.severity === 'normal'"
+            [class.warning]="event.severity === 'warning'"
+            [class.critical]="event.severity === 'critical'">
+
+            <svg
+              *ngIf="event.icon === 'vehicle'"
+              viewBox="0 0 20 20"
+              aria-hidden="true">
+              <path d="M4 13l1.2-5h9.6l1.2 5"></path>
+              <path d="M3 13h14v3H3z"></path>
+              <circle cx="6" cy="16" r="1"></circle>
+              <circle cx="14" cy="16" r="1"></circle>
+            </svg>
+
+
+            <svg
+              *ngIf="event.icon === 'speed'"
+              viewBox="0 0 20 20"
+              aria-hidden="true">
+              <path d="M4 14a6 6 0 1 1 12 0"></path>
+              <path d="M10 11l3-3"></path>
+            </svg>
+
+
+            <svg
+              *ngIf="event.icon === 'wrong-way'"
+              viewBox="0 0 20 20"
+              aria-hidden="true">
+              <path d="M4 10h12"></path>
+              <path d="M11 5l5 5-5 5"></path>
+              <path d="M9 5l-5 5 5 5"></path>
+            </svg>
+
+
+            <svg
+              *ngIf="event.icon === 'camera'"
+              viewBox="0 0 20 20"
+              aria-hidden="true">
+              <rect x="3" y="6" width="10" height="8" rx="1"></rect>
+              <path d="M13 9l4-2v6l-4-2"></path>
+            </svg>
+
+
+            <svg
+              *ngIf="event.icon === 'congestion'"
+              viewBox="0 0 20 20"
+              aria-hidden="true">
+              <path d="M4 15V8M8 15V5M12 15V9M16 15V3"></path>
+            </svg>
+
+          </div>
+
+
+          <div class="activity-copy">
+
+            <strong>{{ event.type }}</strong>
+
+            <span>{{ event.location }}</span>
+
+          </div>
+
+
+          <div class="activity-meta">
+
+            <time>{{ event.time }}</time>
+
+            <span
+              class="severity"
+              [class.normal]="event.severity === 'normal'"
+              [class.warning]="event.severity === 'warning'"
+              [class.critical]="event.severity === 'critical'">
+
+              {{
+                event.severity === 'critical'
+                  ? 'Attention'
+                  : event.severity === 'warning'
+                    ? 'Review'
+                    : 'Normal'
+              }}
+
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- ======================================================= -->
+    <!-- QUICK ACTIONS -->
+    <!-- ======================================================= -->
+
+    <article class="panel actions-panel">
+
+      <div class="panel-header">
+
+        <div class="panel-title">
+
+          <div class="panel-icon purple-icon">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3l1.5 5.5L19 10l-5.5 1.5L12 17l-1.5-5.5L5 10l5.5-1.5z"></path>
+            </svg>
+
+          </div>
+
+          <div>
+            <h2>Quick Actions</h2>
+            <span>Common operations</span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="action-list">
+
+        <button class="action-button" type="button">
+
+          <div class="action-icon blue-action">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="6" width="14" height="12" rx="2"></rect>
+              <path d="M17 10l4-2v8l-4-2z"></path>
+            </svg>
+
+          </div>
+
+          <div>
+            <strong>View live feeds</strong>
+            <span>Monitor active cameras</span>
+          </div>
+
+          <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M4 8h8M9 4l4 4-4 4"></path>
+          </svg>
+
+        </button>
+
+
+        <button class="action-button" type="button">
+
+          <div class="action-icon violet-action">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 3h9l3 3v15H6z"></path>
+              <path d="M15 3v4h4"></path>
+              <path d="M9 12h6M9 16h6"></path>
+            </svg>
+
+          </div>
+
+          <div>
+            <strong>Generate report</strong>
+            <span>Traffic intelligence report</span>
+          </div>
+
+          <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M4 8h8M9 4l4 4-4 4"></path>
+          </svg>
+
+        </button>
+
+
+        <button class="action-button" type="button">
+
+          <div class="action-icon cyan-action">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="6" width="14" height="12" rx="2"></rect>
+              <path d="M17 10l4-2v8l-4-2z"></path>
+            </svg>
+
+          </div>
+
+          <div>
+            <strong>Manage cameras</strong>
+            <span>Review camera health</span>
+          </div>
+
+          <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M4 8h8M9 4l4 4-4 4"></path>
+          </svg>
+
+        </button>
+
+
+        <button class="action-button" type="button">
+
+          <div class="action-icon red-action">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 4l9 16H3L12 4z"></path>
+              <path d="M12 9v4"></path>
+              <circle cx="12" cy="16" r=".8"></circle>
+            </svg>
+
+          </div>
+
+          <div>
+            <strong>Review alerts</strong>
+            <span>Check detected events</span>
+          </div>
+
+          <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M4 8h8M9 4l4 4-4 4"></path>
+          </svg>
+
+        </button>
+
+      </div>
+
+    </article>
+
+  </section>
+
+</div>

@@ -1,0 +1,609 @@
+/* =========================================================
+   TOPBAR HOST
+   ========================================================= */
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+
+/* =========================================================
+   TOPBAR
+   ========================================================= */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  width: 100%;
+  height: 76px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 30px;
+
+  background: rgba(8, 17, 31, 0.94);
+
+  border-bottom: 1px solid rgba(148, 163, 184, 0.10);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   MOBILE BRAND
+   ========================================================= */
+
+.mobile-brand {
+  display: none;
+
+  align-items: center;
+  gap: 10px;
+
+  min-width: 0;
+}
+
+.brand-mark-small {
+  width: 32px;
+  height: 32px;
+
+  display: grid;
+  place-items: center;
+
+  flex-shrink: 0;
+
+  color: #61b8ff;
+}
+
+.brand-mark-small svg {
+  width: 100%;
+  height: 100%;
+}
+
+.mobile-brand-copy {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+
+  min-width: 0;
+
+  line-height: 1;
+}
+
+.mobile-brand-copy strong {
+  color: #f4f8ff;
+
+  font-size: 17px;
+  font-weight: 750;
+
+  letter-spacing: -0.035em;
+
+  white-space: nowrap;
+}
+
+.mobile-brand-copy strong span {
+  color: #4d9cff;
+}
+
+.mobile-brand-copy small {
+  color: #64748b;
+
+  font-size: 7px;
+  font-weight: 700;
+
+  letter-spacing: 0.16em;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   MOBILE MENU
+   ========================================================= */
+
+.mobile-menu-button {
+  display: none;
+
+  width: 40px;
+  height: 40px;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border: 1px solid rgba(148, 163, 184, 0.13);
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.025);
+
+  color: #a8b7ca;
+
+  cursor: pointer;
+
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.mobile-menu-button:hover {
+  background: rgba(77, 156, 255, 0.08);
+
+  border-color: rgba(77, 156, 255, 0.25);
+
+  color: #61b8ff;
+}
+
+.mobile-menu-button:active {
+  transform: scale(0.96);
+}
+
+.mobile-menu-button svg {
+  width: 20px;
+  height: 20px;
+
+  fill: none;
+
+  stroke: currentColor;
+  stroke-width: 1.8;
+
+  stroke-linecap: round;
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+.search-box {
+  width: min(430px, 42vw);
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  padding: 0 12px;
+
+  box-sizing: border-box;
+
+  background: rgba(255, 255, 255, 0.035);
+
+  border: 1px solid rgba(148, 163, 184, 0.12);
+
+  border-radius: 11px;
+
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.search-box:hover {
+  border-color: rgba(148, 163, 184, 0.18);
+}
+
+.search-box:focus-within {
+  background: rgba(255, 255, 255, 0.045);
+
+  border-color: rgba(77, 156, 255, 0.45);
+
+  box-shadow:
+    0 0 0 3px rgba(77, 156, 255, 0.08);
+}
+
+.search-icon {
+  width: 18px;
+  height: 18px;
+
+  flex-shrink: 0;
+
+  fill: none;
+
+  stroke: #65758b;
+  stroke-width: 1.7;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.search-box input {
+  flex: 1;
+
+  min-width: 0;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+
+  color: #e8eef7;
+
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.search-box input::placeholder {
+  color: #5e6d81;
+}
+
+.search-box input::-webkit-search-cancel-button {
+  filter: invert(1);
+  opacity: 0.4;
+}
+
+.search-shortcut {
+  display: flex;
+  align-items: center;
+
+  gap: 3px;
+
+  flex-shrink: 0;
+}
+
+.search-shortcut kbd {
+  min-width: 21px;
+  height: 21px;
+
+  display: grid;
+  place-items: center;
+
+  padding: 0 5px;
+
+  box-sizing: border-box;
+
+  color: #6f7f94;
+
+  background: rgba(255, 255, 255, 0.035);
+
+  border: 1px solid rgba(148, 163, 184, 0.12);
+
+  border-radius: 5px;
+
+  font-family: inherit;
+  font-size: 10px;
+
+  line-height: 1;
+}
+
+
+/* =========================================================
+   TOPBAR ACTIONS
+   ========================================================= */
+
+.topbar-actions {
+  margin-left: auto;
+
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  min-width: 0;
+}
+
+
+/* =========================================================
+   TOP DIVIDER
+   ========================================================= */
+
+.top-divider {
+  width: 1px;
+  height: 28px;
+
+  flex-shrink: 0;
+
+  background: rgba(148, 163, 184, 0.12);
+}
+
+
+/* =========================================================
+   PROFILE
+   ========================================================= */
+
+.profile {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 4px 4px 4px 7px;
+
+  border-radius: 12px;
+
+  background: transparent;
+
+  transition:
+    background 160ms ease;
+}
+
+.profile:hover {
+  background: rgba(255, 255, 255, 0.035);
+}
+
+
+/* =========================================================
+   AVATAR
+   ========================================================= */
+
+.avatar {
+  width: 36px;
+  height: 36px;
+
+  display: grid;
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border-radius: 10px;
+
+  color: #dff0ff;
+
+  background:
+    linear-gradient(
+      145deg,
+      #2d8fff,
+      #3154c9
+    );
+
+  box-shadow:
+    0 5px 18px rgba(40, 117, 255, 0.20);
+
+  font-size: 13px;
+  font-weight: 750;
+}
+
+
+/* =========================================================
+   PROFILE INFO
+   ========================================================= */
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  gap: 3px;
+
+  min-width: 0;
+}
+
+.profile-info strong {
+  color: #e8eef7;
+
+  font-size: 12px;
+  font-weight: 650;
+
+  white-space: nowrap;
+}
+
+.profile-info span {
+  color: #65758b;
+
+  font-size: 10px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   LOGOUT BUTTON
+   ========================================================= */
+
+.logout-button {
+  width: 32px;
+  height: 32px;
+
+  display: grid;
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border: 1px solid rgba(148, 163, 184, 0.12);
+
+  border-radius: 8px;
+
+  background: rgba(255, 255, 255, 0.025);
+
+  color: #718096;
+
+  cursor: pointer;
+
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.logout-button:hover {
+  background: rgba(255, 93, 108, 0.08);
+
+  border-color: rgba(255, 93, 108, 0.25);
+
+  color: #ff7180;
+}
+
+.logout-button:active {
+  transform: scale(0.95);
+}
+
+.logout-button svg {
+  width: 16px;
+  height: 16px;
+
+  fill: none;
+
+  stroke: currentColor;
+  stroke-width: 1.7;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
+/* =========================================================
+   RESPONSIVE — TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .topbar {
+    padding: 0 20px;
+  }
+
+  .mobile-menu-button {
+    display: flex;
+
+    margin-right: 12px;
+  }
+
+  .mobile-brand {
+    display: flex;
+  }
+
+  .search-box {
+    margin-left: 22px;
+
+    width: min(360px, 42vw);
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+   ========================================================= */
+
+@media (max-width: 680px) {
+
+  .topbar {
+    height: 68px;
+
+    padding: 0 15px;
+
+    gap: 10px;
+  }
+
+  .mobile-menu-button {
+    order: -1;
+
+    width: 38px;
+    height: 38px;
+
+    margin-right: 0;
+  }
+
+  .mobile-brand {
+    flex: 1;
+
+    min-width: 0;
+  }
+
+  .search-box {
+    width: 40px;
+    height: 40px;
+
+    margin-left: 0;
+
+    padding: 0;
+
+    justify-content: center;
+
+    border-radius: 10px;
+  }
+
+  .search-box input,
+  .search-shortcut {
+    display: none;
+  }
+
+  .search-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .topbar-actions {
+    margin-left: 0;
+
+    gap: 4px;
+  }
+
+  .top-divider {
+    display: none;
+  }
+
+  .profile-info {
+    display: none;
+  }
+
+  .profile {
+    padding: 2px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .logout-button {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+  .topbar {
+    padding: 0 10px;
+  }
+
+  .mobile-brand-copy small {
+    display: none;
+  }
+
+  .mobile-brand-copy strong {
+    font-size: 15px;
+  }
+
+  .brand-mark-small {
+    width: 29px;
+    height: 29px;
+  }
+
+  .mobile-menu-button {
+    width: 36px;
+    height: 36px;
+  }
+
+  .search-box {
+    width: 36px;
+    height: 36px;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+
+    font-size: 12px;
+  }
+
+  .logout-button {
+    width: 29px;
+    height: 29px;
+  }
+}

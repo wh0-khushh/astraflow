@@ -1,0 +1,411 @@
+:host {
+  display: block;
+}
+
+
+/* =========================================================
+   WRAPPER
+   ========================================================= */
+
+.notification-wrapper {
+  position: relative;
+}
+
+
+/* =========================================================
+   BUTTON
+   ========================================================= */
+
+.notification-button {
+  position: relative;
+
+  width: 40px;
+  height: 40px;
+
+  display: grid;
+  place-items: center;
+
+  border: 0;
+  border-radius: 10px;
+
+  background: transparent;
+
+  color: #8998ac;
+
+  cursor: pointer;
+
+  transition:
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.notification-button:hover,
+.notification-button[aria-expanded="true"] {
+  background: rgba(255, 255, 255, 0.045);
+  color: #dce7f5;
+}
+
+.notification-button svg {
+  width: 19px;
+  height: 19px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
+/* =========================================================
+   BADGE
+   ========================================================= */
+
+.notification-badge {
+  position: absolute;
+
+  top: 5px;
+  right: 4px;
+
+  min-width: 16px;
+  height: 16px;
+
+  display: grid;
+  place-items: center;
+
+  padding: 0 4px;
+
+  border: 2px solid #08111f;
+  border-radius: 999px;
+
+  background: #ff5d6c;
+  color: #ffffff;
+
+  font-size: 8px;
+  font-weight: 750;
+
+  line-height: 1;
+}
+
+
+/* =========================================================
+   PANEL
+   ========================================================= */
+
+.notification-panel {
+  position: absolute;
+
+  top: calc(100% + 12px);
+  right: 0;
+
+  width: 370px;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 15px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(15, 28, 47, 0.99),
+      rgba(8, 17, 31, 0.99)
+    );
+
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.38),
+    0 5px 20px rgba(0, 0, 0, 0.18);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  z-index: 500;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.notification-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 17px 17px 14px;
+
+  border-bottom: 1px solid rgba(148, 163, 184, 0.09);
+}
+
+.notification-header h3 {
+  margin: 0 0 4px;
+
+  color: #edf4fc;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.notification-header span {
+  color: #617289;
+
+  font-size: 10px;
+}
+
+.mark-all {
+  border: 0;
+  background: transparent;
+
+  color: #61b8ff;
+
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 650;
+
+  cursor: pointer;
+}
+
+.mark-all:hover {
+  color: #8ccaff;
+}
+
+
+/* =========================================================
+   LIST
+   ========================================================= */
+
+.notification-list {
+  max-height: 350px;
+
+  overflow-y: auto;
+}
+
+.notification-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.notification-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.notification-list::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.14);
+  border-radius: 10px;
+}
+
+
+/* =========================================================
+   ITEM
+   ========================================================= */
+
+.notification-item {
+  width: 100%;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 12px;
+
+  padding: 14px 17px;
+
+  border: 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.07);
+
+  background: transparent;
+
+  text-align: left;
+
+  font-family: inherit;
+
+  cursor: pointer;
+
+  transition: background 150ms ease;
+}
+
+.notification-item:hover {
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.notification-item.unread {
+  background: rgba(77, 156, 255, 0.025);
+}
+
+
+/* =========================================================
+   ICON
+   ========================================================= */
+
+.notification-icon {
+  width: 34px;
+  height: 34px;
+
+  display: grid;
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border-radius: 9px;
+
+  background: rgba(148, 163, 184, 0.07);
+
+  color: #8998ac;
+}
+
+.notification-icon.violation {
+  color: #ff7b87;
+  background: rgba(255, 93, 108, 0.08);
+}
+
+.notification-icon.camera {
+  color: #61b8ff;
+  background: rgba(77, 156, 255, 0.08);
+}
+
+.notification-icon.alert {
+  color: #f5b85b;
+  background: rgba(245, 184, 91, 0.08);
+}
+
+.notification-icon.report {
+  color: #72d6a0;
+  background: rgba(114, 214, 160, 0.08);
+}
+
+.notification-icon svg {
+  width: 16px;
+  height: 16px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.55;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.notification-content {
+  min-width: 0;
+  flex: 1;
+}
+
+.notification-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  margin-bottom: 4px;
+
+  color: #dce7f5;
+
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.notification-content p {
+  margin: 0 0 6px;
+
+  color: #718096;
+
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.notification-time {
+  color: #536378;
+
+  font-size: 9px;
+}
+
+.unread-dot {
+  width: 5px;
+  height: 5px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #4d9cff;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.notification-footer {
+  padding: 11px 15px;
+
+  border-top: 1px solid rgba(148, 163, 184, 0.08);
+}
+
+.notification-footer button {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  padding: 8px;
+
+  border: 0;
+  border-radius: 7px;
+
+  background: rgba(77, 156, 255, 0.055);
+
+  color: #6db9ff;
+
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    background 150ms ease,
+    color 150ms ease;
+}
+
+.notification-footer button:hover {
+  background: rgba(77, 156, 255, 0.09);
+  color: #91ceff;
+}
+
+.notification-footer svg {
+  width: 13px;
+  height: 13px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 520px) {
+
+  .notification-panel {
+    position: fixed;
+
+    top: 74px;
+    left: 15px;
+    right: 15px;
+
+    width: auto;
+
+    max-width: none;
+  }
+
+}

@@ -1,0 +1,80 @@
+<article class="stat-card" [ngClass]="'theme-' + type">
+
+  <div class="stat-top">
+
+    <div class="stat-icon">
+
+      <!-- CAR -->
+      <svg
+        *ngIf="icon === 'car'"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path d="M5 16h14l-1-6H6l-1 6Z"></path>
+        <path d="m7 10 1.5-4h7L17 10"></path>
+        <circle cx="7.5" cy="16.5" r="1.5"></circle>
+        <circle cx="16.5" cy="16.5" r="1.5"></circle>
+      </svg>
+
+      <!-- SPEED -->
+      <svg
+        *ngIf="icon === 'speed'"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path d="M4 17a8 8 0 1 1 16 0"></path>
+        <path d="m12 13 4-4"></path>
+        <circle cx="12" cy="13" r="1"></circle>
+      </svg>
+
+      <!-- ALERT -->
+      <svg
+        *ngIf="icon === 'alert'"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path d="M12 4 21 20H3L12 4Z"></path>
+        <path d="M12 9v5"></path>
+        <circle cx="12" cy="17" r="0.7"></circle>
+      </svg>
+
+      <!-- ZONE -->
+      <svg
+        *ngIf="icon === 'zone'"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11Z"></path>
+        <circle cx="12" cy="10" r="2.5"></circle>
+      </svg>
+
+    </div>
+
+    <div class="stat-content">
+
+      <div class="stat-label">
+        {{ label }}
+      </div>
+
+      <div class="stat-value">
+        {{ value }}
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="stat-bottom">
+
+    <span class="change">
+      <span class="arrow">↑</span>
+      {{ change }}
+    </span>
+
+    <span class="comparison">
+      {{ comparison }}
+    </span>
+
+  </div>
+
+</article>

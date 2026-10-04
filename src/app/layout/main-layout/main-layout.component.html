@@ -1,0 +1,56 @@
+<div class="app-shell">
+
+  <!-- ===================================================== -->
+  <!-- DESKTOP SIDEBAR -->
+  <!-- ===================================================== -->
+
+  <aside class="sidebar-container">
+    <app-sidebar></app-sidebar>
+  </aside>
+
+
+  <!-- ===================================================== -->
+  <!-- MOBILE BACKDROP -->
+  <!-- ===================================================== -->
+
+  <div
+    class="mobile-backdrop"
+    [class.is-visible]="mobileSidebarOpen"
+    (click)="closeMobileSidebar()">
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- MOBILE SIDEBAR -->
+  <!-- ===================================================== -->
+
+  <aside
+    class="mobile-sidebar"
+    [class.is-open]="mobileSidebarOpen"
+    aria-label="Mobile navigation">
+
+    <app-sidebar></app-sidebar>
+
+  </aside>
+
+
+  <!-- ===================================================== -->
+  <!-- MAIN AREA -->
+  <!-- ===================================================== -->
+
+  <section class="main-area">
+
+    <app-topbar
+      (menuClick)="toggleMobileSidebar()">
+    </app-topbar>
+
+
+    <main class="page-container">
+
+      <router-outlet></router-outlet>
+
+    </main>
+
+  </section>
+
+</div>
