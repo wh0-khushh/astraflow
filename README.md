@@ -80,6 +80,25 @@ The frontend has been implemented using:
 
 The frontend currently provides the complete UI foundation required for backend integration.
 
+## ⚠️ Current Data & Auth Status (important)
+
+* **All screens run on sample data** (`core/data/mock-data.ts`) served by
+  `TrafficDataService`. Every page marks this honestly in the UI
+  ("Sample data · backend not connected"). Nothing shown is measured
+  from real traffic.
+* **Authentication is a local demo only.** `AuthService` checks fixed
+  demo credentials (`admin@astraflow.ai` / `admin123`) in the browser and
+  stores the session in `localStorage`. It is NOT secure and has no
+  server component.
+* **Settings** persist to `localStorage` on this device only — nothing is
+  synced to a backend.
+* **Reports, exports, camera feeds and AI detection are not functional
+  yet.** Queued report entries and violation statuses live in memory and
+  reset on reload.
+* `environment.apiUrl` is intentionally empty; `environment.dataSource`
+  is `'mock'`. Real API integration begins when the Python backend
+  endpoints are confirmed.
+
 ---
 
 # 📁 Frontend Structure
@@ -89,11 +108,19 @@ src/
 └── app/
     │
     ├── core/
+    │   ├── data/
+    │   │   └── mock-data.ts          # sample data (clearly marked in UI)
+    │   │
     │   ├── guards/
     │   │   └── auth.guard.ts
     │   │
+    │   ├── models/
+    │   │   └── traffic.models.ts     # proposed API contracts (TS interfaces)
+    │   │
     │   └── services/
-    │       └── auth.service.ts
+    │       ├── api.service.ts        # HTTP layer for the future Python backend
+    │       ├── auth.service.ts       # demo-only authentication
+    │       └── traffic-data.service.ts  # single data source for all screens
     │
     ├── layout/
     │   ├── main-layout/
