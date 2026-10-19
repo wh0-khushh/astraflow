@@ -10,32 +10,21 @@
 
       <div class="eyebrow">
         <span class="live-pulse"></span>
-        LIVE INTELLIGENCE
+        MONITORING WORKSPACE
       </div>
 
       <h1>Live Monitor</h1>
 
       <p>
-        Real-time camera feeds and AI-powered traffic detection.
+        Camera observation workspace. Video streams and AI
+        detection connect once the Python backend is live.
       </p>
 
     </div>
 
     <div class="header-meta">
 
-      <div class="inference-status">
-        <span class="status-dot"></span>
-
-        <div>
-          <strong>AI inference active</strong>
-          <span>Detection engine running</span>
-        </div>
-      </div>
-
-      <div class="network-status">
-        <span></span>
-        Network operational
-      </div>
+      <span class="af-source">Sample data · backend not connected</span>
 
     </div>
 
@@ -62,7 +51,7 @@
 
       <div class="camera-count">
         <strong>{{ cameras.length }}</strong>
-        <span>active feeds</span>
+        <span>cameras</span>
       </div>
 
     </div>
@@ -142,128 +131,133 @@
 
         </div>
 
-        <div class="feed-status">
+        <div
+          class="feed-status"
+          [class.standby]="selectedCamera.stream === 'standby'"
+          [class.offline]="selectedCamera.stream === 'offline'">
 
           <span></span>
-          LIVE
+          {{ selectedCamera.stream === 'live' ? 'SAMPLE' : (selectedCamera.stream === 'standby' ? 'STANDBY' : 'OFFLINE') }}
 
         </div>
 
       </div>
 
 
-      <div class="camera-feed">
+      <div class="camera-feed" #feedFrame>
 
-        <!-- Simulated road scene -->
+        <ng-container *ngIf="selectedCamera.stream === 'live'; else noStream">
 
-        <div class="sky"></div>
+          <!-- Simulated road scene -->
 
-        <div class="city-silhouette">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
+          <div class="sky"></div>
 
-        <div class="road-surface"></div>
-
-        <div class="road-lane lane-one"></div>
-        <div class="road-lane lane-two"></div>
-        <div class="road-lane lane-three"></div>
-
-
-        <!-- AI detection box 1 -->
-
-        <div
-          class="detection-box box-one">
-
-          <span class="box-label">
-            CAR · 94%
-          </span>
-
-          <span class="box-id">
-            ID 094
-          </span>
-
-        </div>
-
-
-        <!-- AI detection box 2 -->
-
-        <div
-          class="detection-box box-two warning-box">
-
-          <span class="box-label">
-            CAR · 91%
-          </span>
-
-          <span class="box-id">
-            ID 091
-          </span>
-
-        </div>
-
-
-        <!-- AI detection box 3 -->
-
-        <div
-          class="detection-box box-three bus-box">
-
-          <span class="box-label">
-            BUS · 89%
-          </span>
-
-          <span class="box-id">
-            ID 089
-          </span>
-
-        </div>
-
-
-        <!-- Feed overlay -->
-
-        <div class="feed-overlay-top">
-
-          <span>
-            {{ selectedCamera.id }}
-          </span>
-
-          <span>
-            AI INFERENCE ACTIVE
-          </span>
-
-        </div>
-
-
-        <div class="feed-overlay-bottom">
-
-          <span>
-            {{ selectedCamera.vehicles }} objects detected
-          </span>
-
-          <span>
-            {{ selectedCamera.fps }} FPS
-          </span>
-
-          <span>
-            1920 × 1080
-          </span>
-
-        </div>
-
-
-        <div class="tracking-indicator">
-
-          <span class="tracking-ring"></span>
-
-          <div>
-            <strong>Object tracking</strong>
-            <span>Active</span>
+          <div class="city-silhouette">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
 
-        </div>
+          <div class="road-surface"></div>
+
+          <div class="road-lane lane-one"></div>
+          <div class="road-lane lane-two"></div>
+          <div class="road-lane lane-three"></div>
+
+
+          <!-- detection overlays (sample data) -->
+
+          <div
+            class="detection-box"
+            *ngFor="let detection of detections; trackBy: trackByDetection"
+            [style.left.%]="detection.box.x"
+            [style.top.%]="detection.box.y"
+            [style.width.%]="detection.box.width"
+            [style.height.%]="detection.box.height"
+            [class.warning-box]="detection.status === 'warning'"
+            [class.bus-box]="detection.category === 'bus'">
+
+            <span class="box-label">
+              {{ detectionLabel(detection) }} · {{ detection.confidence }}%
+            </span>
+
+            <span class="box-id">
+              ID {{ detection.trackingId }}
+            </span>
+
+          </div>
+
+
+          <div class="feed-overlay-top">
+
+            <span>{{ selectedCamera.id }}</span>
+
+            <span>
+              SIMULATED DETECTION OVERLAY
+            </span>
+
+          </div>
+
+
+          <div class="feed-overlay-bottom">
+
+            <span>
+              {{ selectedCamera.vehiclesDetected }} vehicles (sample count)
+            </span>
+
+            <span>
+              {{ selectedCamera.fps }} FPS
+            </span>
+
+            <span>
+              {{ selectedCamera.resolution }}
+            </span>
+
+          </div>
+
+
+          <div class="tracking-indicator" *ngIf="detections.length">
+
+            <span class="tracking-ring"></span>
+
+            <div>
+              <strong>Overlay preview</strong>
+              <span>{{ detections.length }} sample objects</span>
+            </div>
+
+          </div>
+
+        </ng-container>
+
+
+        <ng-template #noStream>
+
+          <div class="no-stream-state">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="6" width="14" height="12" rx="2"></rect>
+              <path d="M17 10l4-2v8l-4-2z"></path>
+              <path d="M3 3l18 18" *ngIf="selectedCamera.stream === 'offline'"></path>
+            </svg>
+
+            <strong>
+              {{ selectedCamera.stream === 'offline'
+                ? 'Camera offline'
+                : 'Stream on standby' }}
+            </strong>
+
+            <span>
+              {{ selectedCamera.stream === 'offline'
+                ? 'No connection to ' + selectedCamera.id + ' · last seen ' + selectedCamera.lastSeen
+                : selectedCamera.id + ' is not actively streaming. Detection resumes when a feed is connected.' }}
+            </span>
+
+          </div>
+
+        </ng-template>
 
       </div>
 
@@ -286,7 +280,7 @@
 
         <div class="feed-actions">
 
-          <button type="button">
+          <button type="button" (click)="toggleFullscreen()">
             <svg viewBox="0 0 20 20">
               <path d="M5 5h10v10H5z"></path>
               <path d="M8 3v4M12 3v4M8 13v4M12 13v4"></path>
@@ -325,8 +319,8 @@
             </div>
 
             <div>
-              <h2>Live Insights</h2>
-              <span>Current camera intelligence</span>
+              <h2>Camera Insights</h2>
+              <span>Sample values for this camera</span>
             </div>
 
           </div>
@@ -339,9 +333,9 @@
           <div class="insight-stat">
 
             <span>Vehicles</span>
-            <strong>{{ selectedCamera.vehicles }}</strong>
+            <strong>{{ selectedCamera.vehiclesDetected }}</strong>
 
-            <small>Detected now</small>
+            <small>Sample count</small>
 
           </div>
 
@@ -349,8 +343,8 @@
           <div class="insight-stat">
 
             <span>Avg. speed</span>
-            <strong>42</strong>
-            <small>km/h</small>
+            <strong>{{ avgDetectedSpeed || '—' }}</strong>
+            <small>km/h · overlay</small>
 
           </div>
 
@@ -358,8 +352,8 @@
           <div class="insight-stat">
 
             <span>Objects</span>
-            <strong>18</strong>
-            <small>Tracked</small>
+            <strong>{{ detections.length }}</strong>
+            <small>Overlay sample</small>
 
           </div>
 
@@ -367,8 +361,8 @@
           <div class="insight-stat">
 
             <span>FPS</span>
-            <strong>{{ selectedCamera.fps }}</strong>
-            <small>Inference</small>
+            <strong>{{ selectedCamera.fps || '—' }}</strong>
+            <small>Sample rate</small>
 
           </div>
 
@@ -433,7 +427,7 @@
       </article>
 
 
-      <!-- SYSTEM HEALTH -->
+      <!-- CONNECTION HEALTH -->
 
       <article class="panel health-panel">
 
@@ -441,11 +435,14 @@
 
           <div>
             <span>CAMERA HEALTH</span>
-            <h3>System status</h3>
+            <h3>Connection status</h3>
           </div>
 
-          <span class="healthy-badge">
-            Healthy
+          <span
+            class="healthy-badge"
+            [class.attention]="selectedCamera.status === 'warning'"
+            [class.offline]="selectedCamera.status === 'offline'">
+            {{ getStatusLabel(selectedCamera.status) }}
           </span>
 
         </div>
@@ -458,23 +455,23 @@
               <i></i>
               Video stream
             </span>
-            <strong>Stable</strong>
+            <strong>{{ selectedCamera.stream }}</strong>
           </div>
 
           <div>
             <span>
               <i></i>
-              AI inference
+              AI backend
             </span>
-            <strong>Active</strong>
+            <strong>Not connected</strong>
           </div>
 
           <div>
             <span>
               <i></i>
-              Network
+              Last seen
             </span>
-            <strong>32 ms</strong>
+            <strong>{{ selectedCamera.lastSeen }}</strong>
           </div>
 
         </div>
@@ -513,20 +510,20 @@
           </div>
 
           <div>
-            <h2>Active Detections</h2>
-            <span>Objects currently tracked by AI</span>
+            <h2>Detection Overlay Data</h2>
+            <span>Structured output the AI backend will provide</span>
           </div>
 
         </div>
 
         <span class="object-count">
-          {{ detections.length }} tracked
+          {{ detections.length }} sample rows
         </span>
 
       </div>
 
 
-      <div class="detection-table">
+      <div class="detection-table" *ngIf="detections.length; else noDetections">
 
         <div class="table-head">
 
@@ -547,19 +544,19 @@
 
             <div
               class="object-icon"
-              [class.bus]="detection.type === 'bus'"
-              [class.bike]="detection.type === 'bike'"
-              [class.truck]="detection.type === 'truck'">
+              [class.bus]="detection.category === 'bus'"
+              [class.bike]="detection.category === 'bike'"
+              [class.truck]="detection.category === 'truck'">
 
               <svg viewBox="0 0 24 24">
 
                 <path
-                  *ngIf="detection.type === 'car'"
+                  *ngIf="detection.category === 'car'"
                   d="M5 16l1.4-6h11.2L19 16M4 16h16v4H4z">
                 </path>
 
                 <rect
-                  *ngIf="detection.type === 'bus'"
+                  *ngIf="detection.category === 'bus'"
                   x="5"
                   y="4"
                   width="14"
@@ -568,12 +565,12 @@
                 </rect>
 
                 <path
-                  *ngIf="detection.type === 'bike'"
+                  *ngIf="detection.category === 'bike'"
                   d="M6 17l4-7h4l4 7M10 10l-2-3h3">
                 </path>
 
                 <path
-                  *ngIf="detection.type === 'truck'"
+                  *ngIf="detection.category === 'truck'"
                   d="M3 6h12v11H3zM15 10h4l3 3v4h-7z">
                 </path>
 
@@ -582,8 +579,8 @@
             </div>
 
             <div>
-              <strong>{{ getDetectionLabel(detection.type) }}</strong>
-              <span>ID {{ detection.id }}</span>
+              <strong>{{ getDetectionLabel(detection.category) }}</strong>
+              <span>ID {{ detection.trackingId }}</span>
             </div>
 
           </div>
@@ -595,7 +592,7 @@
 
 
           <span class="speed-value">
-            {{ detection.speed }} km/h
+            {{ detection.speedKmh }} km/h
           </span>
 
 
@@ -623,6 +620,26 @@
 
       </div>
 
+      <ng-template #noDetections>
+
+        <div class="af-empty">
+
+          <svg viewBox="0 0 24 24">
+            <rect x="3" y="6" width="14" height="12" rx="2"></rect>
+            <path d="M17 10l4-2v8l-4-2z"></path>
+          </svg>
+
+          <span class="af-empty-title">No detection data for this camera</span>
+
+          <p class="af-empty-text">
+            Overlay data appears here once the AI backend publishes
+            detections for {{ selectedCameraId }}.
+          </p>
+
+        </div>
+
+      </ng-template>
+
     </article>
 
 
@@ -644,20 +661,20 @@
           </div>
 
           <div>
-            <h2>Detection Activity</h2>
-            <span>Latest camera events</span>
+            <h2>Camera Activity</h2>
+            <span>Recent events for this camera</span>
           </div>
 
         </div>
 
-        <button class="view-all" type="button">
+        <button class="view-all" type="button" routerLink="/violations">
           View all
         </button>
 
       </div>
 
 
-      <div class="activity-list">
+      <div class="activity-list" *ngIf="activities.length; else noActivity">
 
         <div
           class="activity-item"
@@ -672,7 +689,7 @@
           <div class="activity-copy">
 
             <strong>{{ activity.type }}</strong>
-            <span>{{ activity.camera }}</span>
+            <span>{{ activity.cameraId }} · {{ activity.detail }}</span>
 
           </div>
 
@@ -683,6 +700,26 @@
         </div>
 
       </div>
+
+      <ng-template #noActivity>
+
+        <div class="af-empty">
+
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="8"></circle>
+            <path d="M12 8v4l3 2"></path>
+          </svg>
+
+          <span class="af-empty-title">No recent events</span>
+
+          <p class="af-empty-text">
+            Events for {{ selectedCameraId }} will appear here.
+            This camera has no sample events yet.
+          </p>
+
+        </div>
+
+      </ng-template>
 
     </article>
 

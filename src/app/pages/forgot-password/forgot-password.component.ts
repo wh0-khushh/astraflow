@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,7 +6,9 @@ import { Router } from '@angular/router';
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.css']
 })
-export class ForgotPasswordComponent {
+export class ForgotPasswordComponent implements OnDestroy {
+
+  private submitTimer: ReturnType<typeof setTimeout> | undefined;
 
   email = '';
 
@@ -29,7 +31,7 @@ export class ForgotPasswordComponent {
 
     this.isSubmitting = true;
 
-    setTimeout(() => {
+    this.submitTimer = setTimeout(() => {
 
       this.isSubmitting = false;
       this.submitted = true;
@@ -39,6 +41,12 @@ export class ForgotPasswordComponent {
 
   backToLogin(): void {
     this.router.navigate(['/login']);
+  }
+
+  ngOnDestroy(): void {
+    if (this.submitTimer) {
+      clearTimeout(this.submitTimer);
+    }
   }
 
 }

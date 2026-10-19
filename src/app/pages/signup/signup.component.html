@@ -103,11 +103,11 @@
 
         <span>
           <i></i>
-          AI inference active
+          UI preview · sample data
         </span>
 
         <span>
-          Secure infrastructure
+          Python AI backend in development
         </span>
 
       </div>
@@ -176,6 +176,25 @@
         </svg>
 
         {{ errorMessage }}
+
+      </div>
+
+
+      <div
+        class="form-info"
+        role="status"
+        *ngIf="validatedNotice">
+
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="8"></circle>
+          <path d="M12 8v5M12 16v.3"></path>
+        </svg>
+
+        {{ validatedNotice }}
+
+        <button type="button" (click)="goToLogin()">
+          Continue with demo sign in
+        </button>
 
       </div>
 
@@ -345,9 +364,15 @@
 
           <span>
             I agree to the
-            <button type="button">Terms of Service</button>
+            <button
+              type="button"
+              class="policy-link"
+              (click)="openPolicy('Terms of Service')">Terms of Service</button>
             and
-            <button type="button">Privacy Policy</button>.
+            <button
+              type="button"
+              class="policy-link"
+              (click)="openPolicy('Privacy Policy')">Privacy Policy</button>.
           </span>
 
         </label>
@@ -412,7 +437,8 @@
         </svg>
 
         <span>
-          Your information is protected with secure authentication.
+          Account creation is not connected to a backend —
+          this form validates your input locally only.
         </span>
 
       </div>

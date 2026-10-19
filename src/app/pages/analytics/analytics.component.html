@@ -12,26 +12,24 @@
       <h1>Analytics</h1>
 
       <p>
-        Analyze vehicle movement, traffic volume and network performance.
+        Vehicle movement, traffic volume and zone performance computed
+        from the sample dataset. Live analytics require the Python
+        AI backend.
       </p>
     </div>
 
     <div class="header-actions">
 
-      <button class="date-control" type="button">
+      <div class="date-control" role="status" aria-label="Current date">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <rect x="3" y="5" width="18" height="16" rx="2"></rect>
           <path d="M16 3v4M8 3v4M3 10h18"></path>
         </svg>
 
-        <span>02 Oct 2026</span>
+        <span>{{ currentDate }}</span>
+      </div>
 
-        <svg class="chevron" viewBox="0 0 16 16" aria-hidden="true">
-          <path d="M4 6l4 4 4-4"></path>
-        </svg>
-      </button>
-
-      <button class="export-button" type="button">
+      <button class="export-button" type="button" (click)="exportReport()">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 3v12"></path>
           <path d="m7 10 5 5 5-5"></path>
@@ -54,7 +52,7 @@
 
       <div class="range-control">
         <button
-          *ngFor="let range of ranges"
+          *ngFor="let range of ranges; trackBy: trackByRange"
           type="button"
           [class.active]="selectedRange === range"
           (click)="setRange(range)">
@@ -64,50 +62,31 @@
 
     </div>
 
-
     <div class="filter-divider"></div>
 
+    <div class="filter-group">
 
-    <button class="filter-select" type="button">
+      <label class="filter-label" for="zoneStatusFilter">ZONE STATUS</label>
 
-      <span class="filter-icon">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M12 21s7-6.1 7-11A7 7 0 0 0 5 10c0 4.9 7 11 7 11z"></path>
-          <circle cx="12" cy="10" r="2.3"></circle>
-        </svg>
-      </span>
+      <select
+        id="zoneStatusFilter"
+        class="zone-filter-select"
+        aria-label="Filter zones by status"
+        [ngModel]="zoneStatusFilter"
+        (ngModelChange)="setZoneFilter($event)">
 
-      <span>
-        <small>ZONE</small>
-        All zones
-      </span>
+        <option value="all">All zones</option>
+        <option value="normal">Normal</option>
+        <option value="moderate">Moderate</option>
+        <option value="congested">Congested</option>
 
-      <svg class="chevron" viewBox="0 0 16 16">
-        <path d="M4 6l4 4 4-4"></path>
-      </svg>
+      </select>
 
-    </button>
+    </div>
 
-
-    <button class="filter-select" type="button">
-
-      <span class="filter-icon cyan">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <rect x="3" y="6" width="14" height="12" rx="2"></rect>
-          <path d="M17 10l4-2v8l-4-2z"></path>
-        </svg>
-      </span>
-
-      <span>
-        <small>CAMERAS</small>
-        All cameras
-      </span>
-
-      <svg class="chevron" viewBox="0 0 16 16">
-        <path d="M4 6l4 4 4-4"></path>
-      </svg>
-
-    </button>
+    <span class="af-source filter-source">
+      Sample data · analytics engine not connected
+    </span>
 
   </section>
 
@@ -117,7 +96,7 @@
 
     <article
       class="analytics-kpi"
-      *ngFor="let metric of kpiMetrics">
+      *ngFor="let metric of kpiMetrics; trackBy: trackByMetric">
 
       <div class="kpi-top">
 
@@ -177,7 +156,8 @@
 
         <span
           class="trend"
-          [class.down]="metric.trend === 'down'">
+          [class.down]="metric.trend === 'down'"
+          [class.neutral]="metric.trend === 'neutral'">
 
           <svg
             *ngIf="metric.trend === 'up'"
@@ -197,7 +177,7 @@
 
         </span>
 
-        <span>vs previous period</span>
+        <span>{{ metric.comparison }}</span>
 
       </div>
 
@@ -216,18 +196,13 @@
 
         <div>
           <h2>Traffic Volume</h2>
-          <span>Vehicle detection across the network</span>
+          <span>Vehicle flow across the sample network</span>
         </div>
 
         <div class="chart-legend">
           <span>
             <i class="blue-dot"></i>
-            Vehicles
-          </span>
-
-          <span>
-            <i class="violet-dot"></i>
-            Previous period
+            Vehicles / interval
           </span>
         </div>
 
@@ -237,11 +212,7 @@
       <div class="large-chart">
 
         <div class="chart-y-axis">
-          <span>1,000</span>
-          <span>750</span>
-          <span>500</span>
-          <span>250</span>
-          <span>0</span>
+          <span *ngFor="let label of flowAxisLabels">{{ label }}</span>
         </div>
 
         <div class="chart-canvas">
@@ -275,26 +246,15 @@
 
             <polygon
               class="volume-area"
-              points="0,205 55,192 110,178 165,150 220,168 275,128 330,105 385,128 440,92 495,72 550,104 605,84 660,112 715,94 760,112 760,260 0,260">
+              [attr.points]="volumeArea">
             </polygon>
 
             <polyline
-              class="previous-line"
-              points="0,216 55,204 110,195 165,181 220,190 275,164 330,150 385,168 440,139 495,125 550,146 605,130 660,151 715,139 760,148">
-            </polyline>
-
-            <polyline
               class="volume-line"
-              points="0,205 55,192 110,178 165,150 220,168 275,128 330,105 385,128 440,92 495,72 550,104 605,84 660,112 715,94 760,112">
+              [attr.points]="volumePoints">
             </polyline>
 
           </svg>
-
-          <div class="chart-tooltip">
-            <span>04:00 PM</span>
-            <strong>842 vehicles</strong>
-            <small>+14.2% vs previous</small>
-          </div>
 
         </div>
 
@@ -302,13 +262,7 @@
 
 
       <div class="chart-x-axis">
-        <span>12 AM</span>
-        <span>4 AM</span>
-        <span>8 AM</span>
-        <span>12 PM</span>
-        <span>4 PM</span>
-        <span>8 PM</span>
-        <span>12 AM</span>
+        <span *ngFor="let label of volumeXLabels">{{ label }}</span>
       </div>
 
     </article>
@@ -321,16 +275,8 @@
 
         <div>
           <h2>Vehicle Distribution</h2>
-          <span>Detected vehicle categories</span>
+          <span>Category mix in the sample dataset</span>
         </div>
-
-        <button class="more-button" type="button">
-          <svg viewBox="0 0 24 24">
-            <circle cx="5" cy="12" r="1"></circle>
-            <circle cx="12" cy="12" r="1"></circle>
-            <circle cx="19" cy="12" r="1"></circle>
-          </svg>
-        </button>
 
       </div>
 
@@ -339,10 +285,12 @@
 
         <div class="donut-wrapper">
 
-          <div class="donut-chart">
+          <div
+            class="donut-chart"
+            [style.background]="donutBackground">
 
             <div class="donut-center">
-              <strong>248</strong>
+              <strong>{{ summary ? summary.totalVehicles : '—' }}</strong>
               <span>Total</span>
             </div>
 
@@ -355,7 +303,7 @@
 
           <div
             class="distribution-item"
-            *ngFor="let vehicle of vehicleDistribution">
+            *ngFor="let vehicle of summary?.vehicleMix">
 
             <div class="distribution-name">
               <i [class]="vehicle.accent"></i>
@@ -382,11 +330,11 @@
 
         <div>
           <h2>Average Speed</h2>
-          <span>Network-wide speed performance</span>
+          <span>Network-wide speed from the sample series</span>
         </div>
 
         <div class="speed-value">
-          <strong>42</strong>
+          <strong>{{ summary ? summary.avgSpeed : '—' }}</strong>
           <span>km/h</span>
         </div>
 
@@ -396,11 +344,7 @@
       <div class="speed-chart">
 
         <div class="speed-y-axis">
-          <span>80</span>
-          <span>60</span>
-          <span>40</span>
-          <span>20</span>
-          <span>0</span>
+          <span *ngFor="let label of speedAxisLabels">{{ label }}</span>
         </div>
 
         <div class="speed-canvas">
@@ -411,12 +355,12 @@
 
             <polyline
               class="speed-target"
-              points="0,82 54,82 108,82 162,82 216,82 270,82 324,82 378,82 432,82 486,82 540,82 594,82 650,82">
+              [attr.points]="'0,' + speedTargetY + ' ' + 650 + ',' + speedTargetY">
             </polyline>
 
             <polyline
               class="speed-main"
-              points="0,108 54,101 108,112 162,96 216,84 270,91 324,73 378,80 432,68 486,76 540,62 594,70 650,58">
+              [attr.points]="speedPoints">
             </polyline>
 
           </svg>
@@ -430,7 +374,7 @@
 
         <span>
           <i class="speed-dot"></i>
-          Actual speed
+          Sample speed
         </span>
 
         <span>
@@ -453,12 +397,12 @@
           <span>Traffic conditions by monitored zone</span>
         </div>
 
-        <button class="view-link" type="button">
-          View zones
+        <a class="view-link" routerLink="/cameras">
+          View cameras
           <svg viewBox="0 0 16 16">
             <path d="M4 8h8M9 4l4 4-4 4"></path>
           </svg>
-        </button>
+        </a>
 
       </div>
 
@@ -474,29 +418,34 @@
 
         <div
           class="zone-row"
-          *ngFor="let zone of zones">
+          *ngFor="let zone of filteredZones; trackBy: trackByZone">
 
           <div class="zone-name">
             <span class="zone-indicator" [class]="zone.status"></span>
 
             <div>
               <strong>{{ zone.name }}</strong>
-              <small>{{ zone.id }}</small>
+              <small>{{ zone.cameraId }}</small>
             </div>
           </div>
 
           <strong>{{ zone.vehicles }}</strong>
 
-          <span>{{ zone.speed }} km/h</span>
+          <span>{{ zone.avgSpeed }} km/h</span>
 
           <span
             class="zone-status"
             [class]="zone.status">
 
-            {{ zone.statusLabel }}
+            {{ statusLabels[zone.status] }}
 
           </span>
 
+        </div>
+
+
+        <div class="zone-empty" *ngIf="filteredZones.length === 0">
+          No zones match this status filter.
         </div>
 
       </div>
@@ -514,13 +463,13 @@
       <div class="panel-header">
 
         <div>
-          <h2>Peak Traffic Hours</h2>
-          <span>Highest vehicle activity during selected period</span>
+          <h2>Peak Traffic Point</h2>
+          <span>Highest flow in the selected sample series</span>
         </div>
 
         <div class="peak-badge">
           <span></span>
-          Peak detected
+          From sample data
         </div>
 
       </div>
@@ -529,22 +478,21 @@
       <div class="peak-content">
 
         <div class="peak-time">
-          <strong>04:00</strong>
-          <span>PM</span>
+          <strong>{{ peakLabel }}</strong>
         </div>
 
         <div class="peak-bar">
 
           <div
             class="peak-bar-fill"
-            style="width: 86%;">
+            [style.width.%]="peakBarWidth">
           </div>
 
         </div>
 
         <div class="peak-meta">
-          <strong>842</strong>
-          <span>vehicles / hour</span>
+          <strong>{{ peakFlow }}</strong>
+          <span>vehicles / interval</span>
         </div>
 
       </div>
@@ -558,10 +506,10 @@
 
         <div>
           <h2>Network Efficiency</h2>
-          <span>Overall traffic flow efficiency</span>
+          <span>Average speed against the 50 km/h sample target</span>
         </div>
 
-        <strong class="efficiency-value">91%</strong>
+        <strong class="efficiency-value">{{ efficiencyPercent }}%</strong>
 
       </div>
 
@@ -570,15 +518,15 @@
 
         <div
           class="efficiency-fill"
-          style="width: 91%;">
+          [style.width.%]="efficiencyPercent">
         </div>
 
       </div>
 
 
       <div class="efficiency-footer">
-        <span>Excellent</span>
-        <span>Target ≥ 85%</span>
+        <span>{{ efficiencyLabel }}</span>
+        <span>Target ≥ 85% (42.5 km/h)</span>
       </div>
 
     </article>

@@ -676,3 +676,41 @@
   }
 
 }
+
+/* =========================================================
+   SAVE FEEDBACK + DEMO AUTH BADGE
+   ========================================================= */
+
+.save-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  max-width: 1600px;
+  margin: 0 auto 18px;
+  padding: 12px 14px;
+
+  border: 1px solid rgba(66, 148, 232, 0.28);
+  border-radius: 10px;
+  background: rgba(38, 136, 255, 0.07);
+
+  color: #a9c8e8;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.save-notice svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: #6bb5ff;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.security-badge.demo {
+  border-color: rgba(242, 169, 59, 0.35);
+  background: rgba(242, 169, 59, 0.1);
+  color: #f4c877;
+}

@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AuthGuard } from './core/guards/auth.guard';
+
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
 
 import { LoginComponent } from './pages/login/login.component';
@@ -51,6 +53,7 @@ const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
+    canActivate: [AuthGuard],
 children: [
 
   {
@@ -61,37 +64,44 @@ children: [
 
   {
     path: 'dashboard',
-    component: DashboardComponent
+    component: DashboardComponent,
+    data: { title: 'Traffic Overview', subtitle: 'Network situation across all monitored zones' }
   },
 
   {
     path: 'live-monitor',
-    component: LiveMonitorComponent
+    component: LiveMonitorComponent,
+    data: { title: 'Live Monitor', subtitle: 'Camera observation & detection workspace' }
   },
 
   {
     path: 'analytics',
-    component: AnalyticsComponent
+    component: AnalyticsComponent,
+    data: { title: 'Analytics', subtitle: 'Traffic patterns, volume and performance' }
   },
 
   {
     path: 'violations',
-    component: ViolationsComponent
+    component: ViolationsComponent,
+    data: { title: 'Violations', subtitle: 'Detected events pending human review' }
   },
 
   {
     path: 'cameras',
-    component: CamerasComponent
+    component: CamerasComponent,
+    data: { title: 'Cameras', subtitle: 'Camera fleet status & connectivity' }
   },
 
   {
     path: 'reports',
-    component: ReportsComponent
+    component: ReportsComponent,
+    data: { title: 'Reports', subtitle: 'Traffic intelligence report history' }
   },
 
   {
     path: 'settings',
-    component: SettingsComponent
+    component: SettingsComponent,
+    data: { title: 'Settings', subtitle: 'Workspace and monitoring preferences' }
   }
 
 ]

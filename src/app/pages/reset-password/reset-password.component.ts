@@ -23,7 +23,7 @@ export class ResetPasswordComponent {
 
   resetPassword(): void {
 
-    this.submitted = true;
+    this.submitted = false;
     this.errorMessage = '';
 
     if (!this.newPassword || !this.confirmPassword) {
@@ -44,19 +44,13 @@ export class ResetPasswordComponent {
     /*
      * BACKEND INTEGRATION
      * -------------------
-     * Later Harshit will provide the reset-password API.
-     *
-     * Example:
-     *
-     * this.authService.resetPassword({
-     *   token: this.token,
-     *   password: this.newPassword
-     * }).subscribe(...)
-     *
-     * For now we only validate the frontend form.
+     * A real password reset requires the backend account API,
+     * e.g. POST /api/auth/reset-password with a signed token
+     * (proposed endpoint — not live). For now this screen
+     * only validates the form and reports that honestly.
      */
 
-    this.router.navigate(['/login']);
+    this.submitted = true;
   }
 
   toggleNewPassword(): void {

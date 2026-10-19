@@ -1,12 +1,16 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit, OnDestroy {
+
+  private submitTimer: ReturnType<typeof setTimeout> | undefined;
 
   email = '';
   password = '';
@@ -17,9 +21,24 @@ export class LoginComponent {
   isSubmitting = false;
   errorMessage = '';
 
+  private returnUrl = '/dashboard';
+
   constructor(
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
+    private authService: AuthService
   ) {}
+
+  ngOnInit(): void {
+
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/dashboard']);
+      return;
+    }
+
+    this.returnUrl = this.route.snapshot.queryParamMap.get('returnUrl')
+      || '/dashboard';
+  }
 
   togglePassword(): void {
     this.showPassword = !this.showPassword;
@@ -36,25 +55,31 @@ export class LoginComponent {
 
     this.isSubmitting = true;
 
-    /*
-     * Temporary frontend authentication.
-     *
-     * Backend authentication will replace this section later.
-     */
+    /* Demo-only frontend check — see AuthService. */
+    this.submitTimer = setTimeout(() => {
 
-    setTimeout(() => {
-
-      localStorage.setItem('astraFlowAuthenticated', 'true');
-
-      if (this.rememberMe) {
-        localStorage.setItem('astraFlowRemember', 'true');
-      }
+      const success = this.authService.login(
+        this.email,
+        this.password,
+        this.rememberMe
+      );
 
       this.isSubmitting = false;
 
-      this.router.navigate(['/dashboard']);
+      if (success) {
+        this.router.navigateByUrl(this.returnUrl);
+      } else {
+        this.errorMessage =
+          'Invalid credentials. This is a frontend demo — use the demo account shown below.';
+      }
 
     }, 500);
+  }
+
+  fillDemoCredentials(): void {
+    const demo = this.authService.demoCredentials;
+    this.email = demo.email;
+    this.password = demo.password;
   }
 
   goToSignup(): void {
@@ -63,6 +88,12 @@ export class LoginComponent {
 
   goToForgotPassword(): void {
     this.router.navigate(['/forgot-password']);
+  }
+
+  ngOnDestroy(): void {
+    if (this.submitTimer) {
+      clearTimeout(this.submitTimer);
+    }
   }
 
 }

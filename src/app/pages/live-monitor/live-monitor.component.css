@@ -38,9 +38,7 @@
 }
 
 .live-pulse,
-.status-dot,
 .feed-status span,
-.network-status span,
 .camera-status {
   width: 7px;
   height: 7px;
@@ -87,45 +85,17 @@
   gap: 22px;
 }
 
-.inference-status {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
 
-.inference-status > span {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #35d59a;
-  box-shadow: 0 0 12px rgba(53, 213, 154, .5);
-}
 
-.inference-status div {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
 
-.inference-status strong {
-  color: #c8d8ea;
-  font-size: 12px;
-}
 
-.inference-status span {
-  color: #64758c;
-  font-size: 10px;
-}
 
-.network-status {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding-left: 22px;
-  border-left: 1px solid rgba(130, 155, 185, .12);
-  color: #72849a;
-  font-size: 11px;
-}
+
+
+
+
+
+
 
 
 /* =========================================================
@@ -508,26 +478,11 @@
     0 0 15px rgba(56, 199, 255, .12);
 }
 
-.box-one {
-  left: 29%;
-  top: 49%;
-  width: 13%;
-  height: 25%;
-}
 
-.box-two {
-  left: 53%;
-  top: 32%;
-  width: 11%;
-  height: 23%;
-}
 
-.box-three {
-  left: 67%;
-  top: 42%;
-  width: 13%;
-  height: 30%;
-}
+
+
+
 
 .warning-box {
   border-color: #f4b84a;
@@ -1172,10 +1127,7 @@
     gap: 10px;
   }
 
-  .network-status {
-    padding-left: 0;
-    border-left: 0;
-  }
+  
 
   .camera-tabs {
     grid-template-columns: 1fr;
@@ -1223,4 +1175,77 @@
     gap: 12px;
   }
 
+}
+
+/* =========================================================
+   HONEST STATES (UI transformation)
+   ========================================================= */
+
+.feed-status.standby {
+  color: #f6c86f;
+}
+
+.feed-status.standby span {
+  background: #f6b83f;
+  box-shadow: 0 0 0 4px rgba(246, 184, 63, .1);
+}
+
+.feed-status.offline {
+  color: #ff8793;
+}
+
+.feed-status.offline span {
+  background: #ff5574;
+  box-shadow: 0 0 0 4px rgba(255, 85, 116, .1);
+}
+
+.healthy-badge.attention {
+  color: #f6c86f !important;
+  background: rgba(246, 184, 63, .07);
+  border-color: rgba(246, 184, 63, .18);
+}
+
+.healthy-badge.offline {
+  color: #ff8793 !important;
+  background: rgba(255, 85, 116, .07);
+  border-color: rgba(255, 85, 116, .18);
+}
+
+.no-stream-state {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  background:
+    radial-gradient(ellipse at center, rgba(12, 29, 49, .92), rgba(4, 11, 20, .97));
+  text-align: center;
+  padding: 24px;
+}
+
+.no-stream-state svg {
+  width: 40px;
+  height: 40px;
+  fill: none;
+  stroke: #5d7590;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  margin-bottom: 6px;
+}
+
+.no-stream-state strong {
+  color: #c3d2e2;
+  font-size: 15px;
+}
+
+.no-stream-state span {
+  color: #71889f;
+  font-size: 12px;
+  max-width: 340px;
 }

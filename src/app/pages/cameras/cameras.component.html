@@ -16,7 +16,8 @@
       <h1>Camera Network</h1>
 
       <p>
-        Monitor camera health, live streams and connected traffic infrastructure.
+        Camera fleet status and connectivity.
+        Sample data — live streams connect with the Python backend.
       </p>
 
     </div>
@@ -39,7 +40,7 @@
 
       </button>
 
-      <button class="primary-button" type="button">
+      <button class="primary-button" type="button" (click)="requestAddCamera()">
 
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 5v14"></path>
@@ -53,6 +54,18 @@
     </div>
 
   </section>
+
+
+  <!-- BACKEND NOTICE -->
+
+  <div
+    class="backend-notice"
+    role="status"
+    *ngIf="notice">
+
+    {{ notice }}
+
+  </div>
 
 
   <!-- ===================================================== -->
@@ -404,7 +417,8 @@
             <button
               class="more-button"
               type="button"
-              aria-label="Camera options">
+              aria-label="Camera options"
+              (click)="manageCamera(camera)">
 
               <span></span>
               <span></span>
@@ -422,7 +436,7 @@
               <span>Vehicles</span>
 
               <strong>
-                {{ camera.vehicles }}
+                {{ camera.vehiclesDetected }}
               </strong>
 
             </div>

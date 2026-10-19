@@ -52,6 +52,22 @@
   </section>
 
 
+  <!-- SAVE FEEDBACK -->
+  <div
+    class="save-notice"
+    role="status"
+    *ngIf="saveNotice">
+
+    <svg viewBox="0 0 20 20" aria-hidden="true">
+      <circle cx="10" cy="10" r="7"></circle>
+      <path d="M10 6v5M10 13.5v.2"></path>
+    </svg>
+
+    {{ saveNotice }}
+
+  </div>
+
+
   <!-- SETTINGS LAYOUT -->
   <section class="settings-layout">
 
@@ -191,7 +207,8 @@
             <input
               class="text-input"
               type="text"
-              value="AstraFlow Traffic Intelligence">
+              aria-label="Workspace name"
+              [(ngModel)]="workspaceName">
 
           </div>
 
@@ -208,11 +225,16 @@
 
             </div>
 
-            <select class="select-input">
+            <select
+              class="select-input"
+              aria-label="Default traffic range"
+              [(ngModel)]="defaultTrafficRange">
+
               <option>1 hour</option>
               <option>6 hours</option>
-              <option selected>24 hours</option>
+              <option>24 hours</option>
               <option>7 days</option>
+
             </select>
 
           </div>
@@ -262,7 +284,8 @@
               <strong>Automatic refresh</strong>
 
               <span>
-                Keep dashboard intelligence data updated automatically.
+                Preference saved locally. Live auto-refresh activates
+                once the backend starts streaming real data.
               </span>
 
             </div>
@@ -451,6 +474,8 @@
 
             <p>
               Configure how AstraFlow processes and displays traffic intelligence.
+              Detection settings are stored locally and take effect
+              once the Python backend is connected.
             </p>
           </div>
 
@@ -505,7 +530,7 @@
 
               <input
                 type="checkbox"
-                checked>
+                [(ngModel)]="vehicleDetection">
 
               <span class="toggle-slider"></span>
 
@@ -530,7 +555,7 @@
 
               <input
                 type="checkbox"
-                checked>
+                [(ngModel)]="speedMonitoring">
 
               <span class="toggle-slider"></span>
 
@@ -554,18 +579,19 @@
             <h2>Security & access</h2>
 
             <p>
-              Manage your account security and access preferences.
+              Account security requires the backend authentication API.
+              Current sign-in is a frontend demo only.
             </p>
           </div>
 
-          <span class="security-badge">
+          <span class="security-badge demo">
 
             <svg viewBox="0 0 20 20" aria-hidden="true">
               <path d="M10 2l6 2.3v4.2c0 4-2.6 7.2-6 9-3.4-1.8-6-5-6-9V4.3L10 2Z"></path>
-              <path d="m7 10 2 2 4-4"></path>
+              <path d="M10 6.5v4M10 13v.2"></path>
             </svg>
 
-            Protected
+            Demo auth
 
           </span>
 
@@ -586,14 +612,16 @@
               <strong>Password</strong>
 
               <span>
-                Keep your account credentials secure.
+                Backend account API not connected — password changes
+                are unavailable in this preview.
               </span>
 
             </div>
 
             <button
               type="button"
-              class="outline-button">
+              class="outline-button"
+              (click)="changePassword()">
 
               Change password
 
@@ -629,10 +657,11 @@
 
             <div class="setting-copy">
 
-              <strong>Session security</strong>
+              <strong>Session status</strong>
 
               <span>
-                Your current administrator session is active.
+                {{ currentUserEmail }} — local demo session,
+                not a real authenticated account.
               </span>
 
             </div>
@@ -651,19 +680,21 @@
 
           <div>
 
-            <strong>Sign out of all sessions</strong>
+            <strong>Sign out of this session</strong>
 
             <span>
-              End all active administrator sessions except this one.
+              Ends the local demo session on this device and
+              returns to the login screen.
             </span>
 
           </div>
 
           <button
             type="button"
-            class="danger-button">
+            class="danger-button"
+            (click)="signOut()">
 
-            Sign out sessions
+            Sign out
 
           </button>
 

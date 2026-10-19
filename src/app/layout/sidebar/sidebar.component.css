@@ -49,11 +49,28 @@
   place-items: center;
 
   flex-shrink: 0;
+
+  position: relative;
+  overflow: hidden;
 }
 
 .brand-mark svg {
   width: 100%;
   height: 100%;
+}
+
+/* Square crop of the wordmark JPEG showing only the
+   logo mark; black background removed via screen blend. */
+.brand-logo-crop {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 360%;
+  transform:
+    translate(calc(-50% + 28%), calc(-50% - 1%));
+  mix-blend-mode: screen;
+  user-select: none;
+  pointer-events: none;
 }
 
 .brand-copy {
@@ -355,6 +372,13 @@
     0 0 8px rgba(56, 217, 157, 0.45);
 }
 
+.ai-status.standby {
+  background: #f6b83f;
+
+  box-shadow:
+    0 0 8px rgba(246, 184, 63, 0.45);
+}
+
 .ai-card p {
   margin: 11px 0 0;
 
@@ -394,6 +418,13 @@
 
   box-shadow:
     0 0 7px rgba(53, 217, 155, 0.35);
+}
+
+.status-dot.standby {
+  background: #f6b83f;
+
+  box-shadow:
+    0 0 7px rgba(246, 184, 63, 0.35);
 }
 /* =========================================================
    ROUTED ACTIVE STATE

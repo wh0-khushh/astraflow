@@ -1,72 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
-interface Report {
-  name: string;
-  type: string;
-  period: string;
-  generated: string;
-  status: 'Ready' | 'Processing';
-  format: 'PDF' | 'CSV';
-  size: string;
-}
+import { ReportRecord } from '../../core/models/traffic.models';
+
+import { TrafficDataService } from '../../core/services/traffic-data.service';
 
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.css']
 })
-export class ReportsComponent {
+export class ReportsComponent implements OnInit, OnDestroy {
 
+  selectedType = 'Traffic Summary';
   selectedPeriod = 'Last 7 days';
-  selectedType = 'All reports';
+  listTypeFilter = 'All types';
 
-  reports: Report[] = [
-    {
-      name: 'Weekly Traffic Intelligence',
-      type: 'Traffic Summary',
-      period: 'Sep 26 – Oct 02, 2026',
-      generated: 'Today, 10:42 AM',
-      status: 'Ready',
-      format: 'PDF',
-      size: '2.4 MB'
-    },
-    {
-      name: 'Violation Activity Report',
-      type: 'Violations',
-      period: 'Sep 26 – Oct 02, 2026',
-      generated: 'Today, 09:18 AM',
-      status: 'Ready',
-      format: 'PDF',
-      size: '1.8 MB'
-    },
-    {
-      name: 'Vehicle Detection Export',
-      type: 'Vehicle Analytics',
-      period: 'Oct 01, 2026',
-      generated: 'Yesterday, 06:32 PM',
-      status: 'Ready',
-      format: 'CSV',
-      size: '846 KB'
-    },
-    {
-      name: 'Camera Performance Report',
-      type: 'Camera Health',
-      period: 'Sep 01 – Sep 30, 2026',
-      generated: 'Sep 30, 2026',
-      status: 'Ready',
-      format: 'PDF',
-      size: '3.1 MB'
-    },
-    {
-      name: 'Monthly Traffic Analysis',
-      type: 'Traffic Summary',
-      period: 'Sep 01 – Sep 30, 2026',
-      generated: 'Sep 30, 2026',
-      status: 'Ready',
-      format: 'PDF',
-      size: '4.7 MB'
-    }
-  ];
+  reports: ReportRecord[] = [];
+
+  queuedNotice: string | null = null;
+
+  private noticeTimer: ReturnType<typeof setTimeout> | null = null;
 
   reportTypes = [
     'Traffic Summary',
@@ -75,20 +28,83 @@ export class ReportsComponent {
     'Camera Health'
   ];
 
+  constructor(
+    private trafficData: TrafficDataService
+  ) {}
+
+  ngOnInit(): void {
+    this.trafficData.getReports().subscribe(
+      reports => this.reports = reports
+    );
+  }
+
+  get visibleReports(): ReportRecord[] {
+
+    if (this.listTypeFilter === 'All types') {
+      return this.reports;
+    }
+
+    return this.reports.filter(
+      report => report.type === this.listTypeFilter
+    );
+  }
+
+  get trafficReportCount(): number {
+    return this.countByType('Traffic Summary');
+  }
+
+  get violationReportCount(): number {
+    return this.countByType('Violations');
+  }
+
+  get csvCount(): number {
+    return this.reports.filter(report => report.format === 'CSV').length;
+  }
+
   generateReport(): void {
-    // Report generation will be connected to the backend later.
-    console.log('Generate report');
+
+    const report = this.trafficData.queueReport(
+      `${this.selectedType} Report`,
+      this.selectedType,
+      this.selectedPeriod
+    );
+
+    this.queuedNotice =
+      `Queued "${report.name}" locally — backend generation not connected, ` +
+      'no file will be produced yet.';
+
+    if (this.noticeTimer) {
+      clearTimeout(this.noticeTimer);
+    }
+
+    this.noticeTimer = setTimeout(() => this.queuedNotice = null, 6000);
   }
 
-  downloadReport(report: Report): void {
-    console.log('Download report:', report.name);
+  ngOnDestroy(): void {
+    if (this.noticeTimer) {
+      clearTimeout(this.noticeTimer);
+    }
   }
 
-  viewReport(report: Report): void {
-    console.log('View report:', report.name);
+  downloadReport(report: ReportRecord): void {
+    window.alert(
+      'No file exists for this entry — report generation requires ' +
+      'the Python backend API, which is not connected yet.'
+    );
   }
 
-  setPeriod(period: string): void {
-    this.selectedPeriod = period;
+  viewReport(report: ReportRecord): void {
+    window.alert(
+      'Report contents are produced by the Python backend, ' +
+      'which is not connected yet. This entry is a sample record.'
+    );
+  }
+
+  trackByReport(index: number, report: ReportRecord): string {
+    return report.name + report.period;
+  }
+
+  private countByType(type: string): number {
+    return this.reports.filter(report => report.type === type).length;
   }
 }

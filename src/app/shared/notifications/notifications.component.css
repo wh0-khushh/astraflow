@@ -409,3 +409,44 @@
   }
 
 }
+
+.notification-footer a {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  padding: 8px;
+
+  border: 0;
+  border-radius: 7px;
+
+  background: rgba(77, 156, 255, 0.055);
+
+  color: #6db9ff;
+
+  font-size: 10px;
+  font-weight: 650;
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition:
+    background 150ms ease,
+    color 150ms ease;
+}
+
+.notification-footer a:hover {
+  background: rgba(77, 156, 255, 0.09);
+  color: #91ceff;
+}
+
+.footer-source {
+  display: block;
+  margin-bottom: 8px;
+  color: #64748b;
+  font-size: 9px;
+  text-align: center;
+}

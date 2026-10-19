@@ -16,15 +16,22 @@
       <h1>Reports</h1>
 
       <p>
-        Generate, review and export traffic intelligence reports.
+        Report entries are sample records. Queueing works locally,
+        but generating actual files requires the Python backend API.
       </p>
 
     </div>
 
-    <button
-      class="primary-button"
-      type="button"
-      (click)="generateReport()">
+    <div class="header-actions">
+
+      <span class="af-source">
+        Backend generation not connected
+      </span>
+
+      <button
+        class="primary-button"
+        type="button"
+        (click)="generateReport()">
 
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M12 3v12"></path>
@@ -34,7 +41,9 @@
 
       Generate report
 
-    </button>
+      </button>
+
+    </div>
 
   </section>
 
@@ -56,9 +65,9 @@
       </div>
 
       <div>
-        <span>Total reports</span>
-        <strong>24</strong>
-        <small>Generated this month</small>
+        <span>Total entries</span>
+        <strong>{{ reports.length }}</strong>
+        <small>Sample records</small>
       </div>
 
     </article>
@@ -76,8 +85,8 @@
 
       <div>
         <span>Traffic reports</span>
-        <strong>12</strong>
-        <small>Network analytics</small>
+        <strong>{{ trafficReportCount }}</strong>
+        <small>Network analytics entries</small>
       </div>
 
     </article>
@@ -95,8 +104,8 @@
 
       <div>
         <span>Violation reports</span>
-        <strong>07</strong>
-        <small>Detection events</small>
+        <strong>{{ violationReportCount }}</strong>
+        <small>Sample entries</small>
       </div>
 
     </article>
@@ -112,9 +121,9 @@
       </div>
 
       <div>
-        <span>Exports</span>
-        <strong>18</strong>
-        <small>PDF & CSV files</small>
+        <span>CSV entries</span>
+        <strong>{{ csvCount }}</strong>
+        <small>No files until backend is live</small>
       </div>
 
     </article>
@@ -144,7 +153,7 @@
 
         <div>
           <h2>Create a report</h2>
-          <span>Configure your traffic intelligence export</span>
+          <span>Queue a sample entry — real generation needs the backend</span>
         </div>
 
       </div>
@@ -161,8 +170,6 @@
         <div class="select-wrapper">
 
           <select [(ngModel)]="selectedType">
-
-            <option>All reports</option>
 
             <option
               *ngFor="let type of reportTypes"
@@ -190,8 +197,8 @@
         <div class="select-wrapper">
 
           <select
-            [value]="selectedPeriod"
-            (change)="setPeriod($any($event.target).value)">
+            aria-label="Report time period"
+            [(ngModel)]="selectedPeriod">
 
             <option>Today</option>
             <option>Last 7 days</option>
@@ -230,6 +237,21 @@
 
     </div>
 
+
+    <div
+      class="queue-notice"
+      role="status"
+      *ngIf="queuedNotice">
+
+      <svg viewBox="0 0 20 20" aria-hidden="true">
+        <circle cx="10" cy="10" r="7"></circle>
+        <path d="M10 6v5M10 13.5v.2"></path>
+      </svg>
+
+      {{ queuedNotice }}
+
+    </div>
+
   </section>
 
 
@@ -254,21 +276,33 @@
         </div>
 
         <div>
-          <h2>Generated reports</h2>
-          <span>Your latest intelligence reports and exports</span>
+          <h2>Report entries</h2>
+          <span>Sample records from the in-memory dataset</span>
         </div>
 
       </div>
 
-      <button class="filter-button" type="button">
+      <div class="list-filter">
 
-        <svg viewBox="0 0 20 20">
-          <path d="M4 5h12M6 10h8M8 15h4"></path>
-        </svg>
+        <label for="reportTypeFilter" class="sr-list-label">Filter by type</label>
 
-        Filter
+        <select
+          id="reportTypeFilter"
+          [(ngModel)]="listTypeFilter">
 
-      </button>
+          <option>All types</option>
+
+          <option
+            *ngFor="let type of reportTypes"
+            [value]="type">
+
+            {{ type }}
+
+          </option>
+
+        </select>
+
+      </div>
 
     </div>
 
@@ -291,7 +325,7 @@
 
       <div
         class="report-row"
-        *ngFor="let report of reports">
+        *ngFor="let report of visibleReports; trackBy: trackByReport">
 
         <div class="report-name">
 
@@ -332,7 +366,8 @@
 
           <span
             class="status-badge"
-            [class.processing]="report.status === 'Processing'">
+            [class.processing]="report.status === 'Processing'"
+            [class.queued]="report.status === 'Queued'">
 
             <i></i>
             {{ report.status }}
@@ -352,7 +387,7 @@
 
           </span>
 
-          <small>{{ report.size }}</small>
+          <small>{{ report.size || 'No file yet' }}</small>
 
         </div>
 
@@ -398,7 +433,7 @@
 
       <article
         class="mobile-report"
-        *ngFor="let report of reports">
+        *ngFor="let report of visibleReports; trackBy: trackByReport">
 
         <div class="mobile-report-top">
 
@@ -425,7 +460,10 @@
 
           </div>
 
-          <span class="status-badge">
+          <span
+            class="status-badge"
+            [class.processing]="report.status === 'Processing'"
+            [class.queued]="report.status === 'Queued'">
 
             <i></i>
             {{ report.status }}
@@ -449,7 +487,7 @@
 
           <div>
             <span>Format</span>
-            <strong>{{ report.format }} · {{ report.size }}</strong>
+            <strong>{{ report.format }} · {{ report.size || 'No file yet' }}</strong>
           </div>
 
         </div>
@@ -478,6 +516,15 @@
 
     </div>
 
+
+    <div
+      class="reports-empty"
+      *ngIf="visibleReports.length === 0">
+
+      No report entries match this type filter.
+
+    </div>
+
   </section>
 
 
@@ -498,11 +545,12 @@
 
     <div>
 
-      <strong>Reports are generated from monitored traffic data</strong>
+      <strong>Report generation is not connected yet</strong>
 
       <span>
-        Report accuracy depends on active cameras, detection quality
-        and available traffic intelligence data.
+        Queued entries live in memory only and reset on reload.
+        Producing real PDF/CSV files requires the Python backend
+        API described in the model contract.
       </span>
 
     </div>

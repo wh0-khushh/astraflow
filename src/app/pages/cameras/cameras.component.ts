@@ -1,111 +1,45 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-interface Camera {
-  id: string;
-  name: string;
-  location: string;
-  status: 'online' | 'warning' | 'offline';
-  stream: 'live' | 'standby' | 'offline';
-  vehicles: number;
-  fps: number;
-  resolution: string;
-  lastSeen: string;
-  zone: string;
-  health: number;
-}
+import { CameraInfo } from '../../core/models/traffic.models';
+import { TrafficDataService } from '../../core/services/traffic-data.service';
 
 @Component({
   selector: 'app-cameras',
   templateUrl: './cameras.component.html',
   styleUrls: ['./cameras.component.css']
 })
-export class CamerasComponent {
+export class CamerasComponent implements OnInit, OnDestroy {
 
   searchTerm = '';
   selectedStatus = 'all';
 
-  cameras: Camera[] = [
-    {
-      id: 'CAM-01',
-      name: 'Central Junction',
-      location: 'Sector 12 · Main Road',
-      status: 'online',
-      stream: 'live',
-      vehicles: 72,
-      fps: 28,
-      resolution: '1080p',
-      lastSeen: 'Just now',
-      zone: 'Zone A',
-      health: 98
-    },
-    {
-      id: 'CAM-02',
-      name: 'North Avenue',
-      location: 'Sector 08 · North Road',
-      status: 'online',
-      stream: 'live',
-      vehicles: 48,
-      fps: 30,
-      resolution: '1080p',
-      lastSeen: 'Just now',
-      zone: 'Zone B',
-      health: 96
-    },
-    {
-      id: 'CAM-03',
-      name: 'East Corridor',
-      location: 'Sector 15 · East Road',
-      status: 'warning',
-      stream: 'live',
-      vehicles: 83,
-      fps: 24,
-      resolution: '1080p',
-      lastSeen: '18 sec ago',
-      zone: 'Zone C',
-      health: 81
-    },
-    {
-      id: 'CAM-04',
-      name: 'South Junction',
-      location: 'Sector 04 · South Road',
-      status: 'online',
-      stream: 'live',
-      vehicles: 45,
-      fps: 29,
-      resolution: '1080p',
-      lastSeen: 'Just now',
-      zone: 'Zone D',
-      health: 94
-    },
-    {
-      id: 'CAM-05',
-      name: 'Market Crossing',
-      location: 'Sector 21 · Market Road',
-      status: 'online',
-      stream: 'standby',
-      vehicles: 31,
-      fps: 25,
-      resolution: '720p',
-      lastSeen: '2 min ago',
-      zone: 'Zone E',
-      health: 91
-    },
-    {
-      id: 'CAM-06',
-      name: 'West Bypass',
-      location: 'Sector 06 · Ring Road',
-      status: 'offline',
-      stream: 'offline',
-      vehicles: 0,
-      fps: 0,
-      resolution: '1080p',
-      lastSeen: '14 min ago',
-      zone: 'Zone F',
-      health: 0
-    }
-  ];
+  notice = '';
+  private noticeTimer: ReturnType<typeof setTimeout> | undefined;
 
-  get filteredCameras(): Camera[] {
+  cameras: CameraInfo[] = [];
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private trafficData: TrafficDataService
+  ) {}
+
+  ngOnInit(): void {
+
+    this.route.queryParamMap.subscribe(params => {
+      const q = params.get('q');
+      if (q) {
+        this.searchTerm = q;
+      }
+    });
+
+    this.trafficData.getCameras().subscribe(
+      cameras => this.cameras = cameras
+    );
+  }
+
+  get filteredCameras(): CameraInfo[] {
     return this.cameras.filter((camera) => {
 
       const matchesSearch =
@@ -136,7 +70,7 @@ export class CamerasComponent {
 
   get totalVehicles(): number {
     return this.cameras.reduce(
-      (total, camera) => total + camera.vehicles,
+      (total, camera) => total + camera.vehiclesDetected,
       0
     );
   }
@@ -150,20 +84,49 @@ export class CamerasComponent {
   }
 
   refreshCameras(): void {
-    // Backend refresh will be connected later.
+    /* Re-reads the current data source. Becomes a real
+       GET /api/cameras once the Python backend is live. */
+    this.trafficData.getCameras().subscribe(
+      cameras => this.cameras = cameras
+    );
   }
 
-  openCamera(camera: Camera): void {
-    // Live monitor navigation will be connected later.
-    console.log('Open camera:', camera.id);
+  openCamera(camera: CameraInfo): void {
+    this.router.navigate(
+      ['/live-monitor'],
+      { queryParams: { camera: camera.id } }
+    );
   }
 
-  manageCamera(camera: Camera): void {
-    // Camera configuration will be connected later.
-    console.log('Manage camera:', camera.id);
+  manageCamera(camera: CameraInfo): void {
+    this.showNotice(
+      `${camera.id}: camera configuration requires the Python backend API, which is not connected yet.`
+    );
   }
 
-  trackByCamera(index: number, camera: Camera): string {
+  requestAddCamera(): void {
+    this.showNotice(
+      'Adding cameras requires the Python backend API, which is not connected yet.'
+    );
+  }
+
+  private showNotice(message: string): void {
+    this.notice = message;
+
+    if (this.noticeTimer) {
+      clearTimeout(this.noticeTimer);
+    }
+
+    this.noticeTimer = setTimeout(() => this.notice = '', 5000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.noticeTimer) {
+      clearTimeout(this.noticeTimer);
+    }
+  }
+
+  trackByCamera(index: number, camera: CameraInfo): string {
     return camera.id;
   }
 }

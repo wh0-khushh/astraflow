@@ -21,6 +21,13 @@ export class SignupComponent {
   isSubmitting = false;
 
   errorMessage = '';
+  validatedNotice = '';
+
+  openPolicy(name: string): void {
+    window.alert(
+      `${name} pages are not part of this UI preview yet.`
+    );
+  }
 
   constructor(
     private router: Router
@@ -37,6 +44,7 @@ export class SignupComponent {
   signup(): void {
 
     this.errorMessage = '';
+    this.validatedNotice = '';
 
     if (
       !this.firstName.trim() ||
@@ -64,15 +72,10 @@ export class SignupComponent {
       return;
     }
 
-    this.isSubmitting = true;
-
-    setTimeout(() => {
-
-      this.isSubmitting = false;
-
-      this.router.navigate(['/login']);
-
-    }, 700);
+    /* No account API exists yet — validate locally, then say so. */
+    this.validatedNotice =
+      'Details look valid, but account creation requires the backend ' +
+      'API, which is not connected. No account was created.';
   }
 
   goToLogin(): void {

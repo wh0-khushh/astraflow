@@ -102,10 +102,7 @@
   stroke-linejoin: round;
 }
 
-.date-control .chevron {
-  width: 13px;
-  margin-left: 4px;
-}
+
 
 
 /* =========================================================
@@ -176,74 +173,21 @@
   background: #1b2b3d;
 }
 
-.filter-select {
-  min-width: 170px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 7px 9px;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  background: transparent;
-  color: #b9c8d9;
-  text-align: left;
-  cursor: pointer;
-}
 
-.filter-select:hover {
-  background: #101e2e;
-  border-color: #1b3046;
-}
 
-.filter-icon {
-  width: 30px;
-  height: 30px;
-  flex: 0 0 30px;
-  display: grid;
-  place-items: center;
-  border-radius: 7px;
-  background: rgba(50, 137, 238, .1);
-  color: #4da4ff;
-}
 
-.filter-icon.cyan {
-  background: rgba(55, 203, 224, .1);
-  color: #48cfe3;
-}
 
-.filter-icon svg {
-  width: 15px;
-  height: 15px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
 
-.filter-select > span:nth-child(2) {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  font-size: 11px;
-  font-weight: 600;
-}
 
-.filter-select small {
-  color: #536980;
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: .1em;
-}
 
-.filter-select .chevron {
-  width: 13px;
-  height: 13px;
-  margin-left: auto;
-  fill: none;
-  stroke: #63778e;
-  stroke-width: 1.6;
-}
+
+
+
+
+
+
+
+
 
 
 /* =========================================================
@@ -441,9 +385,7 @@
   background: #338fff;
 }
 
-.violet-dot {
-  background: #8d72df;
-}
+
 
 .large-chart {
   display: flex;
@@ -495,49 +437,17 @@
   vector-effect: non-scaling-stroke;
 }
 
-.previous-line {
-  fill: none;
-  stroke: #8d72df;
-  stroke-width: 1.5;
-  stroke-dasharray: 5 5;
-  opacity: .7;
-  vector-effect: non-scaling-stroke;
-}
 
-.chart-tooltip {
-  position: absolute;
-  top: 24px;
-  left: 63%;
-  padding: 9px 11px;
-  border: 1px solid #29425d;
-  border-radius: 7px;
-  background: #101f30;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, .25);
-}
 
-.chart-tooltip span,
-.chart-tooltip strong,
-.chart-tooltip small {
-  display: block;
-}
 
-.chart-tooltip span {
-  margin: 0;
-  color: #6e8298;
-  font-size: 8px;
-}
 
-.chart-tooltip strong {
-  margin-top: 4px;
-  color: #dce9f7;
-  font-size: 11px;
-}
 
-.chart-tooltip small {
-  margin-top: 3px;
-  color: #43d08c;
-  font-size: 8px;
-}
+
+
+
+
+
+
 
 .chart-x-axis {
   display: flex;
@@ -559,28 +469,11 @@
   min-height: 390px;
 }
 
-.more-button {
-  width: 30px;
-  height: 30px;
-  display: grid;
-  place-items: center;
-  border: 0;
-  border-radius: 7px;
-  background: transparent;
-  color: #60748b;
-  cursor: pointer;
-}
 
-.more-button:hover {
-  background: #122234;
-  color: #a7bad0;
-}
 
-.more-button svg {
-  width: 17px;
-  height: 17px;
-  fill: currentColor;
-}
+
+
+
 
 .distribution-content {
   display: flex;
@@ -1115,9 +1008,7 @@
     height: 1px;
   }
 
-  .filter-select {
-    width: 100%;
-  }
+  
 
   .analytics-kpis {
     grid-template-columns: 1fr 1fr;
@@ -1150,9 +1041,7 @@
     padding-right: 14px;
   }
 
-  .chart-tooltip {
-    display: none;
-  }
+  
 
   .zone-row {
     grid-template-columns: 1.5fr .7fr .8fr;
@@ -1253,4 +1142,53 @@
     grid-template-columns: 1fr auto;
   }
 
+}
+
+/* =========================================================
+   SERVICE-DRIVEN ADDITIONS
+   ========================================================= */
+
+.date-control {
+  cursor: default;
+}
+
+.zone-filter-select {
+  height: 31px;
+  padding: 0 10px;
+  border: 1px solid #1a2b3e;
+  border-radius: 7px;
+  background: #09121e;
+  color: #aebed1;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.zone-filter-select:focus-visible {
+  outline: 2px solid #3aa7ff;
+  outline-offset: 1px;
+}
+
+.filter-source {
+  margin-left: auto;
+}
+
+.trend.neutral {
+  color: #71849b;
+}
+
+a.view-link {
+  text-decoration: none;
+}
+
+.zone-empty {
+  padding: 18px 16px;
+  color: #71849b;
+  font-size: 12px;
+  text-align: center;
+}
+
+.peak-time strong {
+  font-size: 17px;
 }

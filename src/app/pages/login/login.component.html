@@ -116,11 +116,11 @@
 
         <span>
           <i></i>
-          AI inference active
+          UI preview · sample data
         </span>
 
         <span>
-          Secure infrastructure
+          Python AI backend in development
         </span>
 
       </div>
@@ -421,22 +421,37 @@
       </div>
 
 
-      <!-- SECURITY -->
+      <!-- DEMO NOTICE -->
 
       <div class="security-note">
 
         <svg viewBox="0 0 24 24">
 
-          <path d="M12 3 19 6v5c0 4.5-2.9 8-7 10-4.1-2-7-5.5-7-10V6l7-3Z"></path>
-          <path d="m9 12 2 2 4-4"></path>
+          <circle cx="12" cy="12" r="9"></circle>
+          <path d="M12 8h.01"></path>
+          <path d="M11 12h1v4h1"></path>
 
         </svg>
 
         <span>
-          Your connection is secured with enterprise-grade encryption.
+          Frontend demo — authentication is simulated locally and
+          not yet connected to a secure backend.
         </span>
 
       </div>
+
+      <button
+        type="button"
+        class="demo-fill"
+        (click)="fillDemoCredentials()">
+
+        <span>
+          Demo account · <strong>admin@astraflow.ai</strong> / <strong>admin123</strong>
+        </span>
+
+        <span class="demo-fill-label">Fill</span>
+
+      </button>
 
     </div>
 

@@ -531,3 +531,54 @@
     font-size: 27px;
   }
 }
+
+.form-info {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 20px;
+  padding: 11px 13px;
+  border: 1px solid #cfe3fb;
+  border-radius: 9px;
+  background: #f2f8ff;
+  color: #2c6bbf;
+  font-size: 12px;
+}
+
+.form-info svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+}
+
+.form-info button {
+  border: 0;
+  background: none;
+  color: #1d5fb8;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+.policy-link {
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+.policy-link:focus-visible,
+.form-info button:focus-visible {
+  outline: 2px solid #3aa7ff;
+  outline-offset: 2px;
+  border-radius: 3px;
+}

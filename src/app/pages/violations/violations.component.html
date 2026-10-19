@@ -13,8 +13,8 @@
       <h1>Violations</h1>
 
       <p>
-        Review, monitor and investigate detected traffic violations across
-        your monitored network.
+        Review sample violation records and update their status.
+        Live detection requires the Python AI backend.
       </p>
 
     </div>
@@ -39,7 +39,8 @@
 
       <button
         type="button"
-        class="primary-button">
+        class="primary-button"
+        (click)="exportReport()">
 
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 3v12"></path>
@@ -74,7 +75,7 @@
       <div class="metric-content">
         <span>Total violations</span>
         <strong>{{ totalViolations }}</strong>
-        <small>Detected today</small>
+        <small>Sample entries</small>
       </div>
 
     </article>
@@ -161,10 +162,9 @@
 
       </div>
 
-      <div class="live-indicator">
-        <span></span>
-        Live detection
-      </div>
+      <span class="af-source">
+        Sample data · AI backend not connected
+      </span>
 
     </div>
 
@@ -289,7 +289,7 @@
 
                 <strong>{{ violation.location }}</strong>
 
-                <span>{{ violation.camera }}</span>
+                <span>{{ violation.cameraId }}</span>
 
               </div>
 
@@ -314,7 +314,7 @@
 
                 <div>
                   <strong>{{ violation.vehicle }}</strong>
-                  <span>{{ violation.vehicleType }}</span>
+                  <span>{{ violation.vehicleType | titlecase }}</span>
                 </div>
 
               </div>
@@ -476,11 +476,161 @@
 
       <span class="footer-status">
         <span></span>
-        Detection engine online
+        Review status stored locally · backend not connected
       </span>
 
     </div>
 
   </section>
+
+
+  <!-- REVIEW DETAIL -->
+  <div
+    class="detail-backdrop"
+    *ngIf="selectedViolation"
+    (click)="closeDetails()">
+
+    <aside
+      class="detail-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Violation review"
+      (click)="$event.stopPropagation()">
+
+      <div class="detail-head">
+
+        <div>
+          <span class="detail-id">{{ selectedViolation.id }}</span>
+          <h2>{{ selectedViolation.type }}</h2>
+        </div>
+
+        <button
+          class="detail-close"
+          type="button"
+          aria-label="Close review panel"
+          (click)="closeDetails()">
+
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M5 5l10 10M15 5L5 15"></path>
+          </svg>
+
+        </button>
+
+      </div>
+
+      <p class="detail-description">
+        {{ selectedViolation.description }}
+      </p>
+
+      <div class="detail-grid">
+
+        <div>
+          <span>Location</span>
+          <strong>{{ selectedViolation.location }}</strong>
+        </div>
+
+        <div>
+          <span>Camera</span>
+          <strong>{{ selectedViolation.cameraId }}</strong>
+        </div>
+
+        <div>
+          <span>Vehicle</span>
+          <strong>
+            {{ selectedViolation.vehicle }}
+            · {{ selectedViolation.vehicleType | titlecase }}
+          </strong>
+        </div>
+
+        <div>
+          <span>Recorded</span>
+          <strong>
+            {{ selectedViolation.time }} · {{ selectedViolation.date }}
+          </strong>
+        </div>
+
+        <div>
+          <span>Severity</span>
+          <strong>{{ selectedViolation.severity | titlecase }}</strong>
+        </div>
+
+        <div>
+          <span>Confidence</span>
+          <strong>{{ selectedViolation.confidence }}%</strong>
+        </div>
+
+      </div>
+
+
+      <div
+        class="detail-evidence"
+        *ngIf="!selectedViolation.evidenceAvailable">
+
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="6" width="14" height="12" rx="2"></rect>
+          <path d="M17 10l4-2v8l-4-2z"></path>
+          <path d="M4 4l16 16"></path>
+        </svg>
+
+        <div>
+          <strong>Evidence frame unavailable</strong>
+          <span>
+            Snapshot capture requires the Python AI backend,
+            which is not connected yet.
+          </span>
+        </div>
+
+      </div>
+
+      <ng-container *ngIf="selectedViolation.evidenceAvailable">
+        <div class="detail-evidence-placeholder">
+          Evidence preview placeholder — renderer to be connected.
+        </div>
+      </ng-container>
+
+
+      <div class="detail-actions">
+
+        <button
+          type="button"
+          class="detail-button review"
+          [class.current]="selectedViolation.status === 'reviewed'"
+          (click)="setStatus('reviewed')">
+
+          Mark reviewed
+
+        </button>
+
+        <button
+          type="button"
+          class="detail-button resolve"
+          [class.current]="selectedViolation.status === 'resolved'"
+          (click)="setStatus('resolved')">
+
+          Mark resolved
+
+        </button>
+
+        <button
+          type="button"
+          class="detail-button reopen"
+          [class.current]="selectedViolation.status === 'open'"
+          (click)="setStatus('open')">
+
+          Reopen
+
+        </button>
+
+      </div>
+
+
+      <span class="af-source detail-note">
+        Status change applies to the in-memory sample only —
+        no persistence until the backend API is live.
+      </span>
+
+    </aside>
+
+  </div>
 
 </div>

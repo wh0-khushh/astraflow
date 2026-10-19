@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  /* Empty until the Python AI/CV backend is confirmed.
+     Example: 'http://127.0.0.1:5000' */
+  apiUrl: '',
+  /* 'mock' = sample data from core/data, 'api' = real backend */
+  dataSource: 'mock' as 'mock' | 'api'
 };
 
 /*

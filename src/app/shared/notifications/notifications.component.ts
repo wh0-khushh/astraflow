@@ -1,48 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import { AppNotification } from '../../core/models/traffic.models';
+
+import { TrafficDataService } from '../../core/services/traffic-data.service';
 
 @Component({
   selector: 'app-notifications',
   templateUrl: './notifications.component.html',
   styleUrls: ['./notifications.component.css']
 })
-export class NotificationsComponent {
+export class NotificationsComponent implements OnInit {
 
   isOpen = false;
 
-  notifications = [
-    {
-      id: 1,
-      type: 'violation',
-      title: 'New traffic violation detected',
-      message: 'Speed violation detected at Zone A-04.',
-      time: '2 min ago',
-      unread: true
-    },
-    {
-      id: 2,
-      type: 'camera',
-      title: 'Camera connection restored',
-      message: 'CAM-04 is back online.',
-      time: '12 min ago',
-      unread: true
-    },
-    {
-      id: 3,
-      type: 'alert',
-      title: 'Traffic anomaly detected',
-      message: 'Unusual traffic activity detected in Zone B.',
-      time: '28 min ago',
-      unread: true
-    },
-    {
-      id: 4,
-      type: 'report',
-      title: 'Daily report generated',
-      message: 'Your traffic intelligence report is ready.',
-      time: '1 hr ago',
-      unread: false
-    }
-  ];
+  notifications: AppNotification[] = [];
+
+  constructor(
+    private trafficData: TrafficDataService
+  ) {}
+
+  ngOnInit(): void {
+    this.trafficData.getNotifications().subscribe(
+      notifications => this.notifications = notifications
+    );
+  }
 
   get unreadCount(): number {
     return this.notifications.filter(
@@ -59,19 +40,15 @@ export class NotificationsComponent {
   }
 
   markAsRead(id: number): void {
-    const notification = this.notifications.find(
-      item => item.id === id
-    );
-
-    if (notification) {
-      notification.unread = false;
-    }
+    this.trafficData.markNotificationRead(id);
   }
 
   markAllAsRead(): void {
-    this.notifications.forEach(
-      notification => notification.unread = false
-    );
+    this.trafficData.markAllNotificationsRead();
+  }
+
+  trackByNotification(index: number, notification: AppNotification): number {
+    return notification.id;
   }
 
 }

@@ -81,7 +81,7 @@
       <button
         type="button"
         class="notification-item"
-        *ngFor="let notification of notifications"
+        *ngFor="let notification of notifications; trackBy: trackByNotification"
         [class.unread]="notification.unread"
         (click)="markAsRead(notification.id)">
 
@@ -204,10 +204,12 @@
 
     <div class="notification-footer">
 
-      <button
-        type="button">
+      <span class="footer-source">
+        Sample events · notification feed not connected to backend
+      </span>
 
-        View all notifications
+      <a routerLink="/violations" (click)="close()">
+        Review violations
 
         <svg
           viewBox="0 0 24 24"
@@ -218,7 +220,7 @@
 
         </svg>
 
-      </button>
+      </a>
 
     </div>
 

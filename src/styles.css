@@ -144,3 +144,472 @@ svg {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(90, 126, 160, 0.52);
 }
+
+/* =========================================================
+   SHARED DESIGN SYSTEM
+   Component-scoped styles should reuse these patterns
+   instead of redefining cards, buttons, badges, forms,
+   tables and empty states per page.
+   ========================================================= */
+
+/* ---------- Page header ---------- */
+
+.page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.page-subtitle {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.page-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ---------- Cards ---------- */
+
+.af-card {
+  background: linear-gradient(180deg, var(--surface-2), var(--surface));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.af-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px 0;
+}
+
+.af-card-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 650;
+  color: var(--text);
+}
+
+.af-card-sub {
+  margin: 3px 0 0;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.af-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.af-card-body {
+  padding: 16px 18px 18px;
+}
+
+/* ---------- Buttons ---------- */
+
+.af-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease,
+    transform 0.18s ease, opacity 0.18s ease;
+}
+
+.af-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.af-btn svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex: none;
+}
+
+.af-btn-primary {
+  background: linear-gradient(135deg, var(--cyan), var(--blue));
+  color: #04101f;
+  box-shadow: 0 8px 20px rgba(34, 134, 240, 0.25);
+}
+
+.af-btn-primary:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.af-btn-ghost {
+  border-color: var(--border);
+  color: var(--text-soft);
+}
+
+.af-btn-ghost:hover:not(:disabled) {
+  border-color: var(--border-strong);
+  background: var(--surface-3);
+  color: var(--text);
+}
+
+.af-btn-soft {
+  background: var(--blue-soft);
+  color: var(--blue-light);
+}
+
+.af-btn-soft:hover:not(:disabled) {
+  background: rgba(43, 140, 255, 0.22);
+}
+
+.af-btn-danger {
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.af-btn-danger:hover:not(:disabled) {
+  background: rgba(255, 85, 116, 0.2);
+}
+
+.af-btn-sm {
+  padding: 6px 11px;
+  font-size: 12px;
+  border-radius: var(--radius-sm);
+}
+
+/* ---------- Badges ---------- */
+
+.af-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.badge-blue   { background: var(--blue-soft);   color: var(--blue-light); border-color: rgba(43, 140, 255, 0.25); }
+.badge-cyan   { background: var(--cyan-soft);   color: var(--cyan);       border-color: rgba(22, 200, 229, 0.25); }
+.badge-green  { background: var(--green-soft);  color: var(--green);      border-color: rgba(36, 217, 149, 0.25); }
+.badge-amber  { background: var(--amber-soft);  color: var(--amber);      border-color: rgba(246, 184, 63, 0.28); }
+.badge-red    { background: var(--red-soft);    color: var(--red);        border-color: rgba(255, 85, 116, 0.28); }
+.badge-violet { background: var(--violet-soft); color: var(--violet);     border-color: rgba(138, 112, 255, 0.28); }
+.badge-slate  {
+  background: rgba(109, 132, 158, 0.14);
+  color: var(--text-soft);
+  border-color: rgba(109, 132, 158, 0.3);
+}
+
+/* ---------- Status dots ---------- */
+
+.af-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+  display: inline-block;
+  background: var(--text-muted);
+}
+
+.af-dot.green { background: var(--green); box-shadow: 0 0 0 3px var(--green-soft); }
+.af-dot.amber { background: var(--amber); box-shadow: 0 0 0 3px var(--amber-soft); }
+.af-dot.red   { background: var(--red);   box-shadow: 0 0 0 3px var(--red-soft); }
+.af-dot.blue  { background: var(--blue);  box-shadow: 0 0 0 3px var(--blue-soft); }
+
+@keyframes af-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.af-dot-pulse {
+  animation: af-pulse 1.8s ease-in-out infinite;
+}
+
+/* ---------- Filter chips ---------- */
+
+.af-chip-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.af-chip {
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.16s ease, color 0.16s ease;
+}
+
+.af-chip:hover {
+  color: var(--text-soft);
+}
+
+.af-chip.active {
+  background: linear-gradient(135deg, rgba(22, 200, 229, 0.9), rgba(43, 140, 255, 0.9));
+  color: #04101f;
+}
+
+/* ---------- Data source honesty chip ---------- */
+
+.af-source {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px dashed rgba(109, 132, 158, 0.45);
+  background: rgba(109, 132, 158, 0.1);
+  color: var(--text-muted);
+  font-size: 10.5px;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ---------- Forms ---------- */
+
+.af-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.af-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--text-soft);
+}
+
+.af-input,
+.af-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-deep);
+  color: var(--text);
+  font-size: 13.5px;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.af-input::placeholder {
+  color: var(--text-muted);
+}
+
+.af-input:focus,
+.af-select:focus {
+  outline: none;
+  border-color: rgba(43, 140, 255, 0.55);
+  box-shadow: 0 0 0 3px var(--blue-soft);
+}
+
+.af-input.is-invalid {
+  border-color: rgba(255, 85, 116, 0.55);
+}
+
+.af-hint {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+.af-error-text {
+  font-size: 11.5px;
+  color: var(--red);
+}
+
+/* ---------- Tables ---------- */
+
+.af-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.af-table th {
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.af-table td {
+  padding: 12px;
+  border-bottom: 1px solid rgba(100, 145, 190, 0.08);
+  color: var(--text-soft);
+  vertical-align: middle;
+}
+
+.af-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.af-table tbody tr {
+  transition: background 0.14s ease;
+}
+
+.af-table tbody tr:hover {
+  background: rgba(43, 140, 255, 0.05);
+}
+
+.af-table .cell-strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.af-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ---------- Empty states ---------- */
+
+.af-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.af-empty svg {
+  width: 34px;
+  height: 34px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.6;
+  margin-bottom: 4px;
+}
+
+.af-empty-title {
+  font-size: 14px;
+  font-weight: 650;
+  color: var(--text-soft);
+}
+
+.af-empty-text {
+  margin: 0;
+  font-size: 12.5px;
+  max-width: 320px;
+}
+
+/* ---------- Meters / progress ---------- */
+
+.af-meter {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(100, 145, 190, 0.16);
+  overflow: hidden;
+}
+
+.af-meter-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--cyan), var(--blue));
+  transition: width 0.4s ease;
+}
+
+.af-meter-fill.green { background: linear-gradient(90deg, #17b978, var(--green)); }
+.af-meter-fill.amber { background: linear-gradient(90deg, #d99a26, var(--amber)); }
+.af-meter-fill.red   { background: linear-gradient(90deg, #e0435f, var(--red)); }
+
+/* ---------- Logo treatment ---------- */
+
+/* The brand JPEGs have pure-black backgrounds, so `screen`
+   blending drops the black against dark surfaces. */
+.af-logo {
+  mix-blend-mode: screen;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.af-logo-mark {
+  object-fit: cover;
+  object-position: 17% center;
+  border-radius: var(--radius-md);
+}
+
+/* ---------- Loading skeleton ---------- */
+
+@keyframes af-skeleton {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.af-skeleton {
+  border-radius: var(--radius-md);
+  background: linear-gradient(
+    90deg,
+    var(--surface-2) 25%,
+    var(--surface-3) 50%,
+    var(--surface-2) 75%
+  );
+  background-size: 200% 100%;
+  animation: af-skeleton 1.4s ease-in-out infinite;
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

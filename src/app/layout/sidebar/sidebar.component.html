@@ -8,44 +8,11 @@
 
     <div class="brand-mark">
 
-      <svg
-        viewBox="0 0 42 42"
-        fill="none"
-        aria-hidden="true">
-
-        <path
-          d="M21 3L38 34H30.5L26.8 27H15.2L11.5 34H4L21 3Z"
-          fill="url(#sidebarBrandGradient)"
-        />
-
-        <path
-          d="M18.7 21.5H25.3L22 15.2L18.7 21.5Z"
-          fill="currentColor"
-        />
-
-        <defs>
-
-          <linearGradient
-            id="sidebarBrandGradient"
-            x1="8"
-            y1="7"
-            x2="34"
-            y2="35"
-            gradientUnits="userSpaceOnUse">
-
-            <stop
-              offset="0%"
-              stop-color="#61B8FF" />
-
-            <stop
-              offset="100%"
-              stop-color="#2875FF" />
-
-          </linearGradient>
-
-        </defs>
-
-      </svg>
+      <img
+        src="assets/brand/astraflow-logo-wordmark.jpeg"
+        class="brand-logo-crop"
+        alt="AstraFlow logo"
+      />
 
     </div>
 
@@ -183,8 +150,10 @@
 
       <span>Violations</span>
 
-      <span class="count">
-        12
+      <span
+        class="count"
+        *ngIf="(openViolations$ | async) as count">
+        {{ count }}
       </span>
 
     </button>
@@ -332,20 +301,21 @@
           </div>
 
           <div class="ai-subtitle">
-            Intelligence engine
+            Engine in development
           </div>
 
         </div>
 
 
-        <span class="ai-status"></span>
+        <span class="ai-status standby"></span>
 
       </div>
 
 
       <p>
-        Real-time detection, anomaly monitoring
-        and predictive traffic insights.
+        Detection, tracking and traffic analysis
+        will run on the Python AI backend.
+        Currently showing sample data.
       </p>
 
     </div>
@@ -355,10 +325,10 @@
 
     <div class="sidebar-footer">
 
-      <span class="status-dot"></span>
+      <span class="status-dot standby"></span>
 
       <span>
-        All systems operational
+        Sample data · backend not connected
       </span>
 
     </div>

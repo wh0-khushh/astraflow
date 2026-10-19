@@ -1309,3 +1309,17 @@
   }
 
 }
+
+/* =========================================================
+   BACKEND NOTICE
+   ========================================================= */
+
+.backend-notice {
+  margin: 0 0 18px;
+  padding: 11px 16px;
+  border: 1px solid rgba(246, 184, 63, 0.35);
+  border-radius: 10px;
+  background: rgba(246, 184, 63, 0.08);
+  color: #f6c86f;
+  font-size: 12.5px;
+}

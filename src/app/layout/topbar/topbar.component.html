@@ -4,37 +4,11 @@
   <div class="mobile-brand">
 
     <div class="brand-mark brand-mark-small">
-      <svg
-        viewBox="0 0 42 42"
-        fill="none"
-        aria-hidden="true">
-
-        <path
-          d="M21 3L38 34H30.5L26.8 27H15.2L11.5 34H4L21 3Z"
-          fill="url(#topbarBrandGradient)"
-        />
-
-        <path
-          d="M18.7 21.5H25.3L22 15.2L18.7 21.5Z"
-          fill="currentColor"
-        />
-
-        <defs>
-          <linearGradient
-            id="topbarBrandGradient"
-            x1="8"
-            y1="7"
-            x2="34"
-            y2="35"
-            gradientUnits="userSpaceOnUse">
-
-            <stop offset="0%" stop-color="#61B8FF" />
-            <stop offset="100%" stop-color="#2875FF" />
-
-          </linearGradient>
-        </defs>
-
-      </svg>
+      <img
+        src="assets/brand/astraflow-logo-wordmark.jpeg"
+        class="brand-logo-crop"
+        alt="AstraFlow logo"
+      />
     </div>
 
     <div class="mobile-brand-copy">
@@ -65,7 +39,10 @@
 
 
   <!-- SEARCH -->
-  <div class="search-box">
+  <form
+    class="search-box"
+    role="search"
+    (ngSubmit)="runSearch()">
 
     <svg
       class="search-icon"
@@ -84,16 +61,13 @@
 
     <input
       type="search"
-      placeholder="Search cameras, vehicles, zones..."
-      aria-label="Search"
+      placeholder="Search cameras, zones... (opens Cameras)"
+      aria-label="Search cameras and zones"
+      [(ngModel)]="searchTerm"
+      name="searchTerm"
     />
 
-    <span class="search-shortcut">
-      <kbd>⌘</kbd>
-      <kbd>K</kbd>
-    </span>
-
-  </div>
+  </form>
 
 
   <!-- ACTIONS -->
